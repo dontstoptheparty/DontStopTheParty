@@ -1,11 +1,7 @@
 package br.ufrgs.inf.dontstoptheparty;
 
-import org.jfugue.midi.MidiFileManager;
 import org.jfugue.pattern.Pattern;
 import org.jfugue.player.Player;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Hello world!
