@@ -1,6 +1,6 @@
 package br.ufrgs.inf.dontstoptheparty.player;
 
-import br.ufrgs.inf.dontstoptheparty.enumeration.Note;
+import br.ufrgs.inf.dontstoptheparty.token.Note;
 
 public class PlayerState {
     private Note note;

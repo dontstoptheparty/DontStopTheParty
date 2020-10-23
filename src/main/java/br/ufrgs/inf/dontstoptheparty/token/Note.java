@@ -1,4 +1,4 @@
-package br.ufrgs.inf.dontstoptheparty.enumeration;
+package br.ufrgs.inf.dontstoptheparty.token;
 
 public enum Note {
     LA,

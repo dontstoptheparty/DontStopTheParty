@@ -1,4 +1,4 @@
-package br.ufrgs.inf.dontstoptheparty.enumeration;
+package br.ufrgs.inf.dontstoptheparty.player;
 
 //TODO Implementar instrumentos em ordem de General MIDI
 public enum Instrument {

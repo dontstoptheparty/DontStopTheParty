@@ -1,6 +1,5 @@
 package br.ufrgs.inf.dontstoptheparty.token;
 
-import br.ufrgs.inf.dontstoptheparty.enumeration.Note;
 import br.ufrgs.inf.dontstoptheparty.player.PlayerState;
 
 public class NoteToken implements Token {
@@ -11,7 +10,7 @@ public class NoteToken implements Token {
     }
 
     @Override
-    public void execute(PlayerState jukeboxState) {
-        jukeboxState.setNote(note);
+    public void execute(PlayerState playerState) {
+        playerState.setNote(note);
     }
 }
