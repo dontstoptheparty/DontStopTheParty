@@ -11,8 +11,6 @@ public enum Note {
     
     private String jfugueRepresentation;
 
-    Note(){}
-    
     Note(string jfugueRepresentation){
         this.jfugueRepresentation = jfugueRepresentation;}
     

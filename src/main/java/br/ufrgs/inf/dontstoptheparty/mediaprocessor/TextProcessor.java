@@ -1,9 +1,11 @@
 package br.ufrgs.inf.dontstoptheparty.mediaprocessor;
 
+import br.ufrgs.inf.dontstoptheparty.player.JFuguePlayer;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 public class TextProcessor implements MediaProcessorInterface<String> {
     @Override
@@ -14,9 +16,12 @@ public class TextProcessor implements MediaProcessorInterface<String> {
         for (char ch: entry.toCharArray()) {
             //TODO Implementar regras de coversão
             previousChar = ch;
-           
         }
 
         return tokenList;
     }
+}
+private Map<Char,Token> charToTokenMap = new HashMap<Char, Token>(){
+        //implementações aqui
+
 }
