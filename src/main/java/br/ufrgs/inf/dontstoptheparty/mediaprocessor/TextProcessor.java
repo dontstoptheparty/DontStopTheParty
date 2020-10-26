@@ -14,6 +14,7 @@ public class TextProcessor implements MediaProcessorInterface<String> {
         for (char ch: entry.toCharArray()) {
             //TODO Implementar regras de coversão
             previousChar = ch;
+           
         }
 
         return tokenList;
