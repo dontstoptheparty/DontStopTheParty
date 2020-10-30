@@ -3,6 +3,9 @@ package br.ufrgs.inf.dontstoptheparty.mediaprocessor;
 import br.ufrgs.inf.dontstoptheparty.token.NoteToken;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 import br.ufrgs.inf.dontstoptheparty.token.actions.ChangeInstrumentActionToken;
+import br.ufrgs.inf.dontstoptheparty.token.actions.SilenceActionToken;
+import nu.xom.jaxen.expr.DefaultAbsoluteLocationPath;
+import br.ufrgs.inf.dontstoptheparty.player.PlayerState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +57,28 @@ public class TextProcessor implements MediaProcessorInterface<String> {
         char previousChar ;
 
         for (char ch: entry.toCharArray()) {
-            //TODO Implementar regras de coversão
+            Token aux = charToTokenMap(ch);
+            if(aux != null){
+                tokenList.add(charToTokenMap.get(ch));
+            }
+            else{
+                switch (previousChar){
+                case 'A':
+                case 'B':
+                case 'C':
+                case 'D':
+                case 'E':
+                case 'F':
+                case 'G':
+                tokenList.add(charToTokenMap.get(ch));
+                break;
+
+                default:
+                tokenList.add(new SilenceActionToken());
+                }
+            }
             previousChar = ch;
         }
-
         return tokenList;
     }
 }
