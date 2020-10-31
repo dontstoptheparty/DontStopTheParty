@@ -42,7 +42,7 @@ public class App
         tokenList.add(new NoteToken(Note.RE));
         tokenList.add(new NoteToken(Note.RE));
         tokenList.add(new NoteToken(Note.MI));
-        tokenList.add(new IncreaseInstumentActionToken(1));
+        tokenList.add(new IncreaseInstrumentActionToken(1));
         tokenList.add(new NoteToken(Note.FA));
         tokenList.add(new NoteToken(Note.FA));
         tokenList.add(new NoteToken(Note.SOL));

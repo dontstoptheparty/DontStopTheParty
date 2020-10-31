@@ -4,10 +4,10 @@ import br.ufrgs.inf.dontstoptheparty.player.PlayerConstants;
 import br.ufrgs.inf.dontstoptheparty.player.PlayerState;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 
-public class IncreaseInstumentActionToken implements Token {
+public class IncreaseInstrumentActionToken implements Token {
     private final int value;
 
-    public IncreaseInstumentActionToken(int value) {
+    public IncreaseInstrumentActionToken(int value) {
         this.value = value;
     }
 

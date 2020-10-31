@@ -1,5 +1,9 @@
 .idea
+.classpath
 *.class
+.project
+target/
+.settings/
 
 *.kotlin_module
 
