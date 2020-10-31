@@ -54,10 +54,10 @@ public class TextProcessor implements MediaProcessorInterface<String> {
     @Override
     public List<Token> convert(String entry) {
         final List<Token> tokenList = new ArrayList<>();
-        char previousChar ;
+        char previousChar;
 
         for (char ch: entry.toCharArray()) {
-            Token aux = charToTokenMap(ch);
+            Token aux = charToTokenMap.get(ch);
             if(aux != null){
                 tokenList.add(charToTokenMap.get(ch));
             }
