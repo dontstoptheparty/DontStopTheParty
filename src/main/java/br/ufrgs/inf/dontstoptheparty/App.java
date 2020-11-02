@@ -2,11 +2,11 @@ package br.ufrgs.inf.dontstoptheparty;
 
 import br.ufrgs.inf.dontstoptheparty.enumerator.Instrument;
 import br.ufrgs.inf.dontstoptheparty.enumerator.Note;
+import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBox;
 import br.ufrgs.inf.dontstoptheparty.player.JFuguePlayer;
 import br.ufrgs.inf.dontstoptheparty.token.NoteToken;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 import br.ufrgs.inf.dontstoptheparty.token.actions.*;
-import org.jfugue.pattern.Pattern;
 import org.jfugue.player.Player;
 
 import java.util.ArrayList;
@@ -20,15 +20,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello MAVEN!" );
 
-        Player player = new Player();
-        Pattern p1;
-        String[] noteList = new String[]{
-                "C", "C#", "D", "D#", "E", "F", "F#", "G", "A", "A#", "B"
-        };
-
-        /*EXEMPLO SAVE DO JFUGUE PLAYER*/
         final List<Token> tokenList = new ArrayList<>();
 
         tokenList.add(new DoubleVolumeActionToken());
@@ -55,7 +47,23 @@ public class App
 
         JFuguePlayer jFuguePlayer = new JFuguePlayer();
 
-        jFuguePlayer.save(tokenList);
+        System.out.println("Attempt for-loop reproducing");
+        JukeBox jukeBox = new JukeBox(tokenList, jFuguePlayer);
+        jukeBox.start();
+
+        try {
+            System.out.println("Waiting");
+            Thread.sleep(9500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Attempt playing it all");
+        jFuguePlayer.reset();
+        Player localPlayer = new Player();
+        localPlayer.play(jFuguePlayer.save(tokenList));
+
+
 
         /*FIM EXEMPLO SAVE DO JFUGUE PLAYER*/
 
@@ -86,31 +94,6 @@ public class App
 //                    e.printStackTrace();
 //                }
 //            }
-//        }
-
-        // Trying to save a MIDI from a Pattern
-        p1 = new Pattern(":CON(7, 127) T[Grave] C C# D D# E F F# G G# A A# B").setVoice(0).setInstrument("Piano");
-        Pattern p2 = new Pattern(":CON(7, 127) T[Grave] C C# D D# E F F# G G# A A# B").setVoice(0).setInstrument("Guitar");
-        Pattern p3 = new Pattern(":CON(7, 127) T[Grave] C C# D D# E F F# G G# A A# B").setVoice(0).setInstrument("Flute");
-        Pattern p4 = new Pattern(":CON(7, 127) T[Grave] C C# D D# E F F# G G# A A# B").setVoice(0).setInstrument("Guitar");
-        Pattern p5 = new Pattern(":CON(7, 127) T[Grave] C C# D D# E F F# G G# A A# B").setVoice(0).setInstrument("Piano");
-        Pattern pTotal = new Pattern(p1, p2, p3, p4, p5);
-
-        //player.play(p1);
-
-
-//            while (!player.getManagedPlayer().isFinished()) {
-//                try {
-//                    Thread.sleep((long) 10);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-////
-//        try {
-//            MidiFileManager.savePatternToMidi(pTotal, new File("Test.mid"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
 //        }
 
     }
