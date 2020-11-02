@@ -24,6 +24,11 @@ public class JFuguePlayer extends Player {
     }
 
     @Override
+    public void close() {
+//        player.close();
+    }
+
+    @Override
     public Pattern save(List<Token> tokens) {
         final Pattern finalPattern = new Pattern();
         Pattern tempPatter;

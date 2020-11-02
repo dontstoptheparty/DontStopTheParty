@@ -8,12 +8,16 @@ import java.util.List;
 public class JukeBox implements Runnable {
     private List<Token> tokens;
     private final Player player;
-    private boolean isPaused;
-    private int lastPlayerToken;
+
+    private final Thread jfuguePlayThread;
+    private volatile boolean isRunning;
+    private volatile boolean isPaused;
+    private volatile int lastPlayedToken;
 
     public JukeBox(List<Token> tokens, Player player) {
         this.player = player;
         this.isPaused = true;
+        this.jfuguePlayThread = new Thread(this);
         this.reload(tokens);
     }
 
@@ -27,15 +31,22 @@ public class JukeBox implements Runnable {
     }
 
     public void start() {
-        // TODO Montar a segunda thread de execução
-        Thread jfuguePlayThread = new Thread(this);
-        jfuguePlayThread.start();
-        play();
+        if (jfuguePlayThread.isAlive()) {
+            throw new JukeBoxException("Thread already executing");
+        } else {
+//            jfuguePlayThread.start();
+            isRunning = true;
+            isPaused = false;
+//            play();
+            this.run();
+        }
     }
 
     public void play() {
+        if (!jfuguePlayThread.isAlive()) {
+            throw new JukeBoxException("Music thread isn't running");
+        }
         this.isPaused = false;
-
     }
 
     public void pause() {
@@ -44,7 +55,8 @@ public class JukeBox implements Runnable {
 
     public void stop() {
         pause();
-        lastPlayerToken = 0;
+        lastPlayedToken = 0;
+        isRunning = false;
     }
 
     public void save() {
@@ -53,15 +65,25 @@ public class JukeBox implements Runnable {
 
     @Override
     public void run() {
+        int i = 0;
 
-        for (int i = 0; (i < tokens.size() && !isPaused); i++) {
-            Token token = tokens.get(i);
-            player.play(token);
+        while (isRunning) {
 
-            lastPlayerToken = i;
+            if (!isPaused) {
+                Token token = tokens.get(i);
+                player.play(token);
+
+                lastPlayedToken = i;
+                i++;
+                if (i == tokens.size()) {
+                    stop();
+                }
+            }
         }
 
-        stop();
+        player.close();
 
     }
+
+
 }

@@ -14,6 +14,8 @@ public abstract class Player {
 
     public abstract void play(Token token);
 
+    public abstract void close();
+
     public abstract Pattern save(List<Token> tokens);
 
     public void reset() {
