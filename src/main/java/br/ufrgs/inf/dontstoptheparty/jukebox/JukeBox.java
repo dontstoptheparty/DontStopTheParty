@@ -5,20 +5,20 @@ import br.ufrgs.inf.dontstoptheparty.token.Token;
 
 import java.util.List;
 
-public class JukeBox {
+public class JukeBox implements Runnable {
     private List<Token> tokens;
     private final Player player;
-    private final JukeBoxRunnable jukeBoxRunnable;
+    private boolean isPaused;
+    private int lastPlayerToken;
 
     public JukeBox(List<Token> tokens, Player player) {
         this.player = player;
-        this.jukeBoxRunnable = new JukeBoxRunnable(tokens, player);
+        this.isPaused = true;
         this.reload(tokens);
     }
 
     public void reload(List<Token> tokens) {
         this.tokens = tokens;
-        jukeBoxRunnable.setTokens(tokens);
         this.reset();
     }
 
@@ -27,27 +27,41 @@ public class JukeBox {
     }
 
     public void start() {
-        Thread jfuguePlayThread = new Thread(jukeBoxRunnable);
+        // TODO Montar a segunda thread de execução
+        Thread jfuguePlayThread = new Thread(this);
         jfuguePlayThread.start();
         play();
     }
 
     public void play() {
-        jukeBoxRunnable.setPaused(false);
+        this.isPaused = false;
 
     }
 
     public void pause() {
-        jukeBoxRunnable.setPaused(true);
+        this.isPaused = true;
     }
 
     public void stop() {
         pause();
-        jukeBoxRunnable.setLastPlayerToken(0);
+        lastPlayerToken = 0;
     }
 
-    public void record() {
+    public void save() {
         this.player.save(tokens);
     }
 
+    @Override
+    public void run() {
+
+        for (int i = 0; (i < tokens.size() && !isPaused); i++) {
+            Token token = tokens.get(i);
+            player.play(token);
+
+            lastPlayerToken = i;
+        }
+
+        stop();
+
+    }
 }
