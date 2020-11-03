@@ -24,12 +24,7 @@ public class JFuguePlayer extends Player {
     }
 
     @Override
-    public void close() {
-//        player.close();
-    }
-
-    @Override
-    public Pattern save(List<Token> tokens) {
+    public void save(List<Token> tokens) {
         final Pattern finalPattern = new Pattern();
         Pattern tempPatter;
 
@@ -47,8 +42,6 @@ public class JFuguePlayer extends Player {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return finalPattern;
     }
 
     private void playSingleNotePattern() {
@@ -85,7 +78,7 @@ public class JFuguePlayer extends Player {
     }
 
     private String getNoteWithOctave() {
-        return this.playerState.getNote().getValue() + this.playerState.getOctave()+ " ";
+        return this.playerState.getNote().getStringNotation() + this.playerState.getOctave() + " ";
     }
 
     private String getSilencePattern() {

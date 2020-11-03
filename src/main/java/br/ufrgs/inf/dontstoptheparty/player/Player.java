@@ -1,7 +1,6 @@
 package br.ufrgs.inf.dontstoptheparty.player;
 
 import br.ufrgs.inf.dontstoptheparty.token.Token;
-import org.jfugue.pattern.Pattern;
 
 import java.util.List;
 
@@ -14,9 +13,7 @@ public abstract class Player {
 
     public abstract void play(Token token);
 
-    public abstract void close();
-
-    public abstract Pattern save(List<Token> tokens);
+    public abstract void save(List<Token> tokens);
 
     public void reset() {
         this.playerState.resetToDefault();
