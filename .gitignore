@@ -4,7 +4,9 @@
 .project
 target/
 .settings/
+*.iml
 
 *.kotlin_module
 
 *.mid
+*.sh

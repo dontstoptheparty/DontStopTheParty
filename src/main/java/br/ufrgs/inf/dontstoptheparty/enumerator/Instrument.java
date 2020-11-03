@@ -8,14 +8,14 @@ public enum Instrument {
     CHURCH_ORGAN(20),
     AGOGO(114);
 
-    private final int value;
+    private final int generalMIDICode;
 
     Instrument(int value) {
-        this.value = value;
+        this.generalMIDICode = value;
     }
 
-    public int getValue() {
-        return value;
+    public int getGeneralMIDICode() {
+        return generalMIDICode;
     }
 }
 
