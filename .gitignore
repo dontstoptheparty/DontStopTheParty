@@ -9,4 +9,3 @@ target/
 *.kotlin_module
 
 *.mid
-*.sh

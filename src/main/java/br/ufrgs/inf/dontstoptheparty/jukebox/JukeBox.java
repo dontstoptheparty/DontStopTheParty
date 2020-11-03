@@ -5,20 +5,14 @@ import br.ufrgs.inf.dontstoptheparty.token.Token;
 
 import java.util.List;
 
-// TODO CREATE AN INTERFACE WITH METHOD COMMENTS
-public class JukeBox implements Runnable {
+public class JukeBox {
     private List<Token> tokens;
     private final Player player;
-
-    private final Thread playerThread;
-    private volatile boolean isRunning;
-    private volatile boolean isPaused;
-    private volatile int lastPlayedToken;
+    private Boolean isPaused;
 
     public JukeBox(List<Token> tokens, Player player) {
         this.player = player;
         this.isPaused = true;
-        this.playerThread = new Thread(this);
         this.reload(tokens);
     }
 
@@ -29,24 +23,14 @@ public class JukeBox implements Runnable {
 
     public void reset() {
         this.player.reset();
-        this.lastPlayedToken = 0;
     }
 
     public void start() {
-        if (playerThread.isAlive()) {
-            throw new JukeBoxException("Thread already executing");
-        } else {
-            lastPlayedToken = 0;
-            playerThread.start();
-            isRunning = true;
-            play();
-        }
+        // TODO Montar a segunda thread de execução
+
     }
 
     public void play() {
-        if (!playerThread.isAlive()) {
-            throw new JukeBoxException("Music thread isn't running");
-        }
         this.isPaused = false;
     }
 
@@ -54,37 +38,7 @@ public class JukeBox implements Runnable {
         this.isPaused = true;
     }
 
-    public void stop() {
-        pause();
-        isRunning = false;
-        reset();
-    }
-
     public void save() {
         this.player.save(tokens);
     }
-
-    @Override
-    public void run() {
-        // TODO IMPROVE THIS IMPLEMENTATION. COULD BE MORE READABLE
-
-        int i = lastPlayedToken;
-
-        while (isRunning) {
-
-            if (!isPaused) {
-                Token token = tokens.get(i);
-                player.play(token);
-
-                lastPlayedToken = i;
-                i++;
-                if (i == tokens.size()) {
-                    stop();
-                }
-            }
-        }
-
-    }
-
-
 }

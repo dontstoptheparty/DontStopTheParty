@@ -9,5 +9,5 @@ public class PlayerConstants {
     public static final int MAX_VOLUME = 127;
     public static final int MIN_INSTRUMENT = 1;
     public static final int MAX_INSTRUMENT = 127;
-    public static final int MAX_OCTAVE = 9;
+    public static final int MAX_OCTAVE = 10;
 }
