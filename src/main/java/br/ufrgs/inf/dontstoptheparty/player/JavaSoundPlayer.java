@@ -6,7 +6,6 @@ import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
-import java.util.List;
 
 public class JavaSoundPlayer extends Player {
     private static final int PLAY_NOTE_DURATION_IN_MILLISECONDS = 800;
@@ -70,17 +69,11 @@ public class JavaSoundPlayer extends Player {
         this.playerState.setNote(null);
     }
 
-
     private void rest() {
         try {
             Thread.sleep(PLAY_NOTE_DURATION_IN_MILLISECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void save(List<Token> tokens) {
-        // TODO IMPROVE HOW SAVING IS WORKING
     }
 }

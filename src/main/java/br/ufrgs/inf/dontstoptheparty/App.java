@@ -4,6 +4,7 @@ import br.ufrgs.inf.dontstoptheparty.enumerator.Instrument;
 import br.ufrgs.inf.dontstoptheparty.enumerator.Note;
 import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBox;
 import br.ufrgs.inf.dontstoptheparty.player.JavaSoundPlayer;
+import br.ufrgs.inf.dontstoptheparty.recorder.JFugueRecorder;
 import br.ufrgs.inf.dontstoptheparty.token.NoteToken;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 import br.ufrgs.inf.dontstoptheparty.token.actions.ChangeInstrumentActionToken;
@@ -47,7 +48,8 @@ public class App {
 
         try {
             JavaSoundPlayer javaSoundPlayer = new JavaSoundPlayer();
-            JukeBox jukeBox = new JukeBox(tokenList, javaSoundPlayer);
+            JFugueRecorder jFugueRecorder = new JFugueRecorder();
+            JukeBox jukeBox = new JukeBox(tokenList, javaSoundPlayer, jFugueRecorder);
 
             jukeBox.start();
 
@@ -57,5 +59,7 @@ public class App {
 
 //        jFuguePlayer.save(tokenList);
 
+
+        // TODO HERE WE CAN START THE "INTEGRATION TESTS"
     }
 }

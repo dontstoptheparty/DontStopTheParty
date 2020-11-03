@@ -1,4 +1,4 @@
-package br.ufrgs.inf.dontstoptheparty.player;
+package br.ufrgs.inf.dontstoptheparty.recorder;
 
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 import org.jfugue.midi.MidiFileManager;
@@ -8,23 +8,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class JFuguePlayer extends Player {
+public class JFugueRecorder extends Recorder {
 
     private final org.jfugue.player.Player player;
 
-    public JFuguePlayer() {
+    public JFugueRecorder() {
         super();
         this.player = new org.jfugue.player.Player();
     }
 
     @Override
-    public void play(Token token) {
-        token.apply(this.playerState);
-        this.playSingleNotePattern();
-    }
-
-    @Override
-    public void save(List<Token> tokens) {
+    public void record(List<Token> tokens) {
         final Pattern finalPattern = new Pattern();
         Pattern tempPatter;
 
@@ -42,14 +36,8 @@ public class JFuguePlayer extends Player {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
-    private void playSingleNotePattern() {
-        final Pattern pattern = this.generateSingleNotePattern();
-        if (pattern != null) {
-            player.play(pattern);
-            this.cleanNoteAfterPlay();
-        }
+        this.playerState.resetToDefault();
     }
 
     private void cleanNoteAfterPlay() {

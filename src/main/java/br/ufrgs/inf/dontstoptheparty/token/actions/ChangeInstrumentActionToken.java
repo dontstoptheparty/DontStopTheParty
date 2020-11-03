@@ -13,6 +13,6 @@ public class ChangeInstrumentActionToken implements Token {
 
     @Override
     public void apply(PlayerState playerState) {
-        playerState.setInstrument(this.instrument.getValue());
+        playerState.setInstrument(this.instrument.getGeneralMIDICode());
     }
 }

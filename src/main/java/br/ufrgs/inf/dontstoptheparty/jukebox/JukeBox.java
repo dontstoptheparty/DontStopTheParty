@@ -1,22 +1,24 @@
 package br.ufrgs.inf.dontstoptheparty.jukebox;
 
 import br.ufrgs.inf.dontstoptheparty.player.Player;
+import br.ufrgs.inf.dontstoptheparty.recorder.Recorder;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 
 import java.util.List;
 
-// TODO CREATE AN INTERFACE WITH METHOD COMMENTS
 public class JukeBox implements Runnable {
     private List<Token> tokens;
     private final Player player;
+    private final Recorder recorder;
 
     private final Thread playerThread;
     private volatile boolean isRunning;
     private volatile boolean isPaused;
     private volatile int lastPlayedToken;
 
-    public JukeBox(List<Token> tokens, Player player) {
+    public JukeBox(List<Token> tokens, Player player, Recorder recorder) {
         this.player = player;
+        this.recorder = recorder;
         this.isPaused = true;
         this.playerThread = new Thread(this);
         this.reload(tokens);
@@ -55,31 +57,35 @@ public class JukeBox implements Runnable {
     }
 
     public void stop() {
-        pause();
         isRunning = false;
+        pause();
         reset();
     }
 
-    public void save() {
-        this.player.save(tokens);
+    public void record() {
+        this.recorder.record(tokens);
     }
 
     @Override
     public void run() {
-        // TODO IMPROVE THIS IMPLEMENTATION. COULD BE MORE READABLE
-
         int i = lastPlayedToken;
 
         while (isRunning) {
-
             if (!isPaused) {
                 Token token = tokens.get(i);
                 player.play(token);
 
                 lastPlayedToken = i;
                 i++;
+
                 if (i == tokens.size()) {
                     stop();
+                }
+            } else {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }
