@@ -1,10 +1,8 @@
 package br.ufrgs.inf.dontstoptheparty.player;
 
-import br.ufrgs.inf.dontstoptheparty.token.NoteToken;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 import org.jfugue.midi.MidiFileManager;
 import org.jfugue.pattern.Pattern;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -80,7 +78,7 @@ public class JFuguePlayer extends Player {
     }
 
     private String getNoteWithOctave() {
-        return this.playerState.getNote().getValue() + this.playerState.getOctave()+ " ";
+        return this.playerState.getNote().getStringNotation() + this.playerState.getOctave() + " ";
     }
 
     private String getSilencePattern() {
