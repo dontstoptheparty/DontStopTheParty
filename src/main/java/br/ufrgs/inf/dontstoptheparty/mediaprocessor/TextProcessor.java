@@ -66,7 +66,7 @@ public class TextProcessor implements MediaProcessorInterface<String> {
                 case 'E':
                 case 'F':
                 case 'G':
-                tokenList.add(charToTokenMap.get(ch));
+                tokenList.add(charToTokenMap.get(previousChar));
                 break;
 
                 default:
