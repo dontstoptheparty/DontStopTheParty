@@ -15,9 +15,9 @@ import java.util.List;
 
 public class TextProcessorTest {
 
-    private final TextProcessor testProcessor = new TextProcessor(); 
+    private final TextProcessor textProcessor = new TextProcessor();
     @Test
-    void testForDefaultValue(){
+    public void testForDefaultValue(){
         String charList = "ABCDEFG!I1i2U3\nu4;5,6789 ?aGz";
         final List<Token> expectedList = new ArrayList<Token>(){{
             //ABCDEFG!I1i2U3\nu4;5,6789 ?aGz
@@ -52,8 +52,8 @@ public class TextProcessorTest {
             add(new NoteToken(Note.SOL));
         }};
 
-        assertNotNull(testProcessor.convert(charList));
-        assertEquals(expectedList.size(), testProcessor.convert(charList).size());
+        assertNotNull(textProcessor.convert(charList));
+        assertEquals(expectedList.size(), textProcessor.convert(charList).size());
 //        assertEquals(expectedList.toArray(), testProcessor.convert(charList).toArray());
     }
 }
