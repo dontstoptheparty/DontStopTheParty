@@ -54,12 +54,10 @@ public class TextProcessorTest {
             add(new NoteToken(Note.SOL));
         }};
 
-        assertNotNull(textProcessor.convert(charList));
-        assertEquals(expectedList.size(), textProcessor.convert(charList).size());
         List<Token> resultList = textProcessor.convert(charList);
-//        assertEquals(expectedList, textProcessor.convert(charList));
-        for (int i = 0; i < expectedList.size(); i++) {
-            assertEquals(expectedList.get(i), resultList.get(i));
-        }
+
+        assertNotNull(resultList);
+        assertEquals(expectedList.size(), resultList.size());
+        assertEquals(expectedList, resultList);
     }
 }
