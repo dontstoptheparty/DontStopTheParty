@@ -15,4 +15,9 @@ public class IncreaseOctaveActionToken implements Token {
             playerState.setOctave(newOctave);
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof IncreaseOctaveActionToken);
+    }
 }

@@ -1,17 +1,18 @@
 package br.ufrgs.inf.dontstoptheparty;
-import org.junit.Test;
+
 import br.ufrgs.inf.dontstoptheparty.enumerator.Instrument;
 import br.ufrgs.inf.dontstoptheparty.enumerator.Note;
+import br.ufrgs.inf.dontstoptheparty.mediaprocessor.TextProcessor;
 import br.ufrgs.inf.dontstoptheparty.token.NoteToken;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 import br.ufrgs.inf.dontstoptheparty.token.actions.*;
-import br.ufrgs.inf.dontstoptheparty.mediaprocessor.TextProcessor;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class TextProcessorTest {
 
@@ -38,6 +39,7 @@ public class TextProcessorTest {
             add(new IncreaseInstrumentActionToken(3));
             add(new ChangeInstrumentActionToken(Instrument.TUBULAR_BELLS));
             add(new IncreaseInstrumentActionToken(4));
+            add(new ChangeInstrumentActionToken(Instrument.HARPSICHORD));
             add(new ChangeInstrumentActionToken(Instrument.PAN_FLUTE));
             add(new IncreaseInstrumentActionToken(5));
             add(new ChangeInstrumentActionToken(Instrument.CHURCH_ORGAN));
@@ -54,6 +56,10 @@ public class TextProcessorTest {
 
         assertNotNull(textProcessor.convert(charList));
         assertEquals(expectedList.size(), textProcessor.convert(charList).size());
-//        assertEquals(expectedList.toArray(), testProcessor.convert(charList).toArray());
+        List<Token> resultList = textProcessor.convert(charList);
+//        assertEquals(expectedList, textProcessor.convert(charList));
+        for (int i = 0; i < expectedList.size(); i++) {
+            assertEquals(expectedList.get(i), resultList.get(i));
+        }
     }
 }
