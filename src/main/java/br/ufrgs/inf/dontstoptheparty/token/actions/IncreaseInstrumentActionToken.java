@@ -24,4 +24,9 @@ public class IncreaseInstrumentActionToken implements Token {
             playerState.setInstrument(newInstrument);
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof IncreaseInstrumentActionToken);
+    }
 }

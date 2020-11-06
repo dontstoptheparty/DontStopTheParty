@@ -14,4 +14,12 @@ public class NoteToken implements Token {
     public void apply(PlayerState playerState) {
         playerState.setNote(note);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NoteToken noteToken = (NoteToken) o;
+        return note == noteToken.note;
+    }
 }

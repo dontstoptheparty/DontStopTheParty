@@ -15,4 +15,9 @@ public class DoubleVolumeActionToken implements Token {
             playerState.setVolume(newVolume);
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof DoubleVolumeActionToken);
+    }
 }

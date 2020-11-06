@@ -8,4 +8,9 @@ public class SilenceActionToken implements Token {
     public void apply(PlayerState playerState) {
         playerState.setSilence(true);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof SilenceActionToken);
+    }
 }

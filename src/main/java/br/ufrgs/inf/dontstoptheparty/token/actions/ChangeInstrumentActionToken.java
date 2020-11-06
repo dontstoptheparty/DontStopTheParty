@@ -15,4 +15,12 @@ public class ChangeInstrumentActionToken implements Token {
     public void apply(PlayerState playerState) {
         playerState.setInstrument(this.instrument.getGeneralMIDICode());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChangeInstrumentActionToken that = (ChangeInstrumentActionToken) o;
+        return instrument == that.instrument;
+    }
 }
