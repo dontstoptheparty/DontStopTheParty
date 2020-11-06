@@ -38,8 +38,8 @@ public class TextProcessorTest {
             add(new ChangeInstrumentActionToken(Instrument.HARPSICHORD));
             add(new IncreaseInstrumentActionToken(3));
             add(new ChangeInstrumentActionToken(Instrument.TUBULAR_BELLS));
-            add(new IncreaseInstrumentActionToken(4));
             add(new ChangeInstrumentActionToken(Instrument.HARPSICHORD));
+            add(new IncreaseInstrumentActionToken(4));
             add(new ChangeInstrumentActionToken(Instrument.PAN_FLUTE));
             add(new IncreaseInstrumentActionToken(5));
             add(new ChangeInstrumentActionToken(Instrument.CHURCH_ORGAN));
