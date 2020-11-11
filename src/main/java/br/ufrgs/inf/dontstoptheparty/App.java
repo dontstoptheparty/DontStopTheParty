@@ -1,6 +1,6 @@
 package br.ufrgs.inf.dontstoptheparty;
 
-import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBox;
+import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBoxImpl;
 import br.ufrgs.inf.dontstoptheparty.mediaprocessor.TextProcessor;
 import br.ufrgs.inf.dontstoptheparty.player.JavaSoundPlayer;
 import br.ufrgs.inf.dontstoptheparty.recorder.JFugueRecorder;
@@ -10,68 +10,8 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.swing.*;
 import java.util.ArrayList;
 
-/**
- * Hello world!
- */
 public class App {
     public static void main(String[] args) {
-
-//        final List<Token> tokenList = new ArrayList<>();
-//
-//        tokenList.add(new DoubleVolumeActionToken());
-//        tokenList.add(new ChangeInstrumentActionToken(Instrument.ACOUSTIC_PIANO));
-//        tokenList.add(new NoteToken(Note.DO));
-//        tokenList.add(new NoteToken(Note.DO));
-//        tokenList.add(new SilenceActionToken());
-//        tokenList.add(new SilenceActionToken());
-//        tokenList.add(new SilenceActionToken());
-//        tokenList.add(new SilenceActionToken());
-//        tokenList.add(new NoteToken(Note.RE));
-//        tokenList.add(new NoteToken(Note.RE));
-//        tokenList.add(new NoteToken(Note.MI));
-//        tokenList.add(new IncreaseInstrumentActionToken(24));
-//        tokenList.add(new NoteToken(Note.FA));
-//        tokenList.add(new NoteToken(Note.FA));
-//        tokenList.add(new NoteToken(Note.SOL));
-//        tokenList.add(new NoteToken(Note.SOL));
-//        tokenList.add(new IncreaseOctaveActionToken());
-//        tokenList.add(new NoteToken(Note.LA));
-//        tokenList.add(new NoteToken(Note.LA));
-//        tokenList.add(new NoteToken(Note.SOL));
-//        tokenList.add(new NoteToken(Note.SI));
-//
-//        try {
-//            JavaSoundPlayer javaSoundPlayer = new JavaSoundPlayer();
-//            JFugueRecorder jFugueRecorder = new JFugueRecorder();
-//            JukeBox jukeBox = new JukeBox(tokenList, javaSoundPlayer, jFugueRecorder);
-//
-//            jukeBox.start();
-//
-//        } catch (MidiUnavailableException e) {
-//            e.printStackTrace();
-//        }
-//
-////        jFuguePlayer.save(tokenList);
-//
-//
-//        // TODO HERE WE CAN START THE "INTEGRATION TESTS"
-//        System.out.println("Write the song: ");
-        /*
-        String inputSong = "aA?BCDEFGAbABBBCCCDD!3BBGD4,AB;CD?EFG";
-        TextProcessor textProcessor = new TextProcessor();
-        List<Token> tokens = textProcessor.convert(inputSong);
-
-        try {
-            JavaSoundPlayer player = new JavaSoundPlayer();
-            JFugueRecorder recorder = new JFugueRecorder();
-            JukeBox jukeBox = new JukeBox(tokens, player, recorder);
-
-            jukeBox.start();
-        } catch (MidiUnavailableException e) {
-            e.printStackTrace();
-        }
-
-*/
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
@@ -84,7 +24,7 @@ public class App {
                 try {
                     player = new JavaSoundPlayer();
                     final JFugueRecorder recorder = new JFugueRecorder();
-                    final JukeBox jukeBox = new JukeBox(new ArrayList<>(), player, recorder);
+                    final JukeBoxImpl jukeBox = new JukeBoxImpl(new ArrayList<>(), player, recorder);
                     final TextProcessor textProcessor = new TextProcessor();
                     new Main(jukeBox, textProcessor).display();
                 } catch (MidiUnavailableException e) {

@@ -1,13 +1,12 @@
 package br.ufrgs.inf.dontstoptheparty.ui;
 
-import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBox;
+import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBoxImpl;
 import br.ufrgs.inf.dontstoptheparty.mediaprocessor.TextProcessor;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 import br.ufrgs.inf.dontstoptheparty.utils.DirectoryUtils;
 import br.ufrgs.inf.dontstoptheparty.utils.FileUtils;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,8 +18,9 @@ public class Main {
     private JButton openFileButton;
     private JTextArea musicTextArea;
     private JButton buttonRecord;
+    
     private final TextProcessor textProcessor;
-    private final JukeBox jukeBox;
+    private final JukeBoxImpl jukeBox;
     private boolean isPlaying;
     private boolean isRunning;
 
@@ -33,14 +33,14 @@ public class Main {
     private static final String RECORD_SAVE_ERROR = "Error saving your music.";
     private static final String INVALID_DIRECTORY = "Invalid directory.";
 
-    public Main(JukeBox newJukeBox, TextProcessor newTextProcessor) {
+    public Main(JukeBoxImpl newJukeBox, TextProcessor newTextProcessor) {
         this.jukeBox = newJukeBox;
         this.textProcessor = newTextProcessor;
         this.isPlaying = false;
         this.isRunning = false;
         this.updateButtons();
 
-        this.jukeBox.setFinishCallback(() -> this.finishCallback());
+        this.jukeBox.setFinishListener(() -> this.finishListener());
         this.playPauseButton.addActionListener(actionEvent -> this.handlePlayPauseButtonClick());
         this.startStopButton.addActionListener(actionEvent -> this.handleStartStopButtonClick());
         this.resetButton.addActionListener(actionEvent -> this.handleResetButtonClick());
@@ -113,7 +113,7 @@ public class Main {
         }
     }
 
-    private void finishCallback() {
+    private void finishListener() {
         this.isPlaying = false;
         this.isRunning = false;
         this.updateButtons();
