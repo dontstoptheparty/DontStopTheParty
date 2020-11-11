@@ -48,6 +48,7 @@ public class JFugueRecorder extends Recorder {
             return new Pattern(this.getSilencePattern());
         } else if (this.songState.getNote() != null) {
             return new Pattern(this.getVolumePattern() +
+                    this.getBpmPattern() +
                     this.getInstrumentPattern() +
                     this.getNoteWithOctave());
         } else {
@@ -57,6 +58,10 @@ public class JFugueRecorder extends Recorder {
 
     private String getVolumePattern() {
         return ":CON(7, " + this.songState.getVolume() + ") ";
+    }
+
+    private String getBpmPattern() {
+        return "I" + this.songState.getBpm() + " ";
     }
 
     private String getInstrumentPattern() {

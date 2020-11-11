@@ -1,6 +1,7 @@
 package br.ufrgs.inf.dontstoptheparty.ui;
 
 import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBoxImpl;
+import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBoxListener;
 import br.ufrgs.inf.dontstoptheparty.mediaprocessor.TextProcessor;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 import br.ufrgs.inf.dontstoptheparty.utils.DirectoryUtils;
@@ -18,7 +19,7 @@ public class Main {
     private JButton openFileButton;
     private JTextArea musicTextArea;
     private JButton buttonRecord;
-    
+
     private final TextProcessor textProcessor;
     private final JukeBoxImpl jukeBox;
     private boolean isPlaying;
@@ -40,7 +41,17 @@ public class Main {
         this.isRunning = false;
         this.updateButtons();
 
-        this.jukeBox.setFinishListener(() -> this.finishListener());
+        this.jukeBox.setFinishListener(new JukeBoxListener() {
+            @Override
+            public void onTokenPlayed(List<Token> tokens, int position) {
+                changeHighlightedText(tokens, position);
+            }
+
+            @Override
+            public void onFinish() {
+                finishListener();
+            }
+        });
         this.playPauseButton.addActionListener(actionEvent -> this.handlePlayPauseButtonClick());
         this.startStopButton.addActionListener(actionEvent -> this.handleStartStopButtonClick());
         this.resetButton.addActionListener(actionEvent -> this.handleResetButtonClick());
@@ -113,6 +124,11 @@ public class Main {
         }
     }
 
+    private void changeHighlightedText(List<Token> tokens, int position) {
+        final String musicText = this.musicTextArea.getText();
+//        final List<Token> tokens = this.textProcessor.convert(musicText);
+    }
+
     private void finishListener() {
         this.isPlaying = false;
         this.isRunning = false;
@@ -132,11 +148,7 @@ public class Main {
             this.playPauseButton.setText(PLAY_TEXT);
         }
 
-        if (this.isRunning) {
-            this.playPauseButton.setEnabled(true);
-        } else {
-            this.playPauseButton.setEnabled(false);
-        }
+        this.playPauseButton.setEnabled(this.isRunning);
     }
 
     private void updateStartStopButton() {
@@ -148,11 +160,7 @@ public class Main {
     }
 
     private void updateResetButton() {
-        if (this.isRunning) {
-            this.resetButton.setEnabled(true);
-        } else {
-            this.resetButton.setEnabled(false);
-        }
+        this.resetButton.setEnabled(this.isRunning);
     }
 
     private void loadJukeboxTokens() {

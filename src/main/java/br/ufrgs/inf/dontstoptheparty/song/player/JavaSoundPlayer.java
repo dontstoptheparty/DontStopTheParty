@@ -8,7 +8,7 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
 
 public class JavaSoundPlayer extends Player {
-    private static final int PLAY_NOTE_DURATION_IN_MILLISECONDS = 800;
+    private static final int DEFAULT_NOTE_DURATION_IN_MILLISECONDS = 800;
 
     private final Synthesizer midiSynth;
     private final MidiChannel mChannel;
@@ -38,10 +38,11 @@ public class JavaSoundPlayer extends Player {
     private void playNote() {
         int key = getKeyFromPlayerState();
         int volume = getVolumeFromPlayerState();
+        long noteDurationInMillis = getNoteDurationInMillis();
         changeInstrument();
 
         mChannel.noteOn(key, volume);
-        rest();
+        rest(noteDurationInMillis);
         mChannel.noteOff(key);
     }
 
@@ -61,6 +62,10 @@ public class JavaSoundPlayer extends Player {
         return songState.getVolume();
     }
 
+    private long getNoteDurationInMillis() {
+        return calculateNoteDurationMillisecond(songState.getBpm());
+    }
+
     private void playSilence() {
         rest();
     }
@@ -70,10 +75,24 @@ public class JavaSoundPlayer extends Player {
     }
 
     private void rest() {
+        rest(DEFAULT_NOTE_DURATION_IN_MILLISECONDS);
+    }
+
+    private void rest(long timeInMillis) {
         try {
-            Thread.sleep(PLAY_NOTE_DURATION_IN_MILLISECONDS);
+            Thread.sleep(timeInMillis);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Given a frequency in BPM (beats per minute) calculate note duration in milliseconds
+     *
+     * @param bpm Frequency in BPM
+     * @return noteDuration
+     */
+    private long calculateNoteDurationMillisecond(int bpm) {
+        return (60 * 1000) / bpm;
     }
 }

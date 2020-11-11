@@ -7,6 +7,7 @@ public class SongState {
     private int instrument;
     private int volume;
     private int octave;
+    private int bpm;
     private boolean silence;
 
     public SongState() {
@@ -18,6 +19,7 @@ public class SongState {
         this.instrument = SongConstants.DEFAULT_INSTRUMENT;
         this.volume = SongConstants.DEFAULT_VOLUME;
         this.octave = SongConstants.DEFAULT_OCTAVE;
+        this.bpm = SongConstants.DEFAULT_BPM;
         this.silence = false;
     }
 
@@ -59,5 +61,13 @@ public class SongState {
 
     public void setSilence(boolean silence) {
         this.silence = silence;
+    }
+
+    public int getBpm() {
+        return bpm;
+    }
+
+    public void setBpm(int bpm) {
+        this.bpm = bpm;
     }
 }

@@ -96,6 +96,7 @@ public class JukeBoxImpl extends JukeBox implements Runnable {
                 Token token = this.tokens.get(i);
                 this.player.play(token);
                 i++;
+                onTokenApplied(i);
             } else {
                 try {
                     Thread.sleep(100);
@@ -107,8 +108,14 @@ public class JukeBoxImpl extends JukeBox implements Runnable {
     }
 
     private void onFinish() {
-        if (this.finishListener != null) {
-            this.finishListener.onFinish();
+        if (this.jukeBoxListener != null) {
+            this.jukeBoxListener.onFinish();
+        }
+    }
+
+    private void onTokenApplied(int position) {
+        if (this.jukeBoxListener != null) {
+            this.jukeBoxListener.onTokenPlayed(tokens, position);
         }
     }
 

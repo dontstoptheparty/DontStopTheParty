@@ -12,7 +12,7 @@ public abstract class JukeBox {
     protected final Recorder recorder;
 
     protected List<Token> tokens;
-    protected FinishListener finishListener;
+    protected JukeBoxListener jukeBoxListener;
 
     public JukeBox(List<Token> tokens, Player player, Recorder recorder) {
         this.player = player;
@@ -62,7 +62,7 @@ public abstract class JukeBox {
      */
     public abstract void record(String directory) throws IOException;
 
-    public void setFinishListener(FinishListener finishListener) {
-        this.finishListener = finishListener;
+    public void setFinishListener(JukeBoxListener jukeBoxListener) {
+        this.jukeBoxListener = jukeBoxListener;
     }
 }
