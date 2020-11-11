@@ -1,5 +1,5 @@
 package br.ufrgs.inf.dontstoptheparty.jukebox;
 
-public interface FinishCallback {
-    void callback();
+public interface FinishListener {
+    void onFinish();
 }

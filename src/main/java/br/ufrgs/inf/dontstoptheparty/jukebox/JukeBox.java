@@ -7,21 +7,29 @@ import br.ufrgs.inf.dontstoptheparty.token.Token;
 import java.util.List;
 
 public class JukeBox implements Runnable {
-    private List<Token> tokens;
     private final Player player;
     private final Recorder recorder;
 
-    private final Thread playerThread;
+    private List<Token> tokens;
+    private FinishListener finishListener;
+    private Thread playerThread;
+
     private volatile boolean isRunning;
     private volatile boolean isPaused;
-    private volatile int lastPlayedToken;
+    private volatile boolean resetTokens;
 
     public JukeBox(List<Token> tokens, Player player, Recorder recorder) {
         this.player = player;
         this.recorder = recorder;
         this.isPaused = true;
+        this.isRunning = false;
+        this.resetTokens = false;
         this.playerThread = new Thread(this);
         this.reload(tokens);
+    }
+
+    public void setFinishCallback(FinishListener finishMethod) {
+        this.finishListener = finishMethod;
     }
 
     public void reload(List<Token> tokens) {
@@ -30,25 +38,18 @@ public class JukeBox implements Runnable {
     }
 
     public void reset() {
+        this.isRunning = true;
         this.player.reset();
-        this.lastPlayedToken = 0;
+        this.resetTokens = true;
+        this.reviveThreadIfNecessary();
     }
 
     public void start() {
-        if (playerThread.isAlive()) {
-            throw new JukeBoxException("Thread already executing");
-        } else {
-            lastPlayedToken = 0;
-            playerThread.start();
-            isRunning = true;
-            play();
-        }
+        this.play();
+        this.reset();
     }
 
     public void play() {
-        if (!playerThread.isAlive()) {
-            throw new JukeBoxException("Music thread isn't running");
-        }
         this.isPaused = false;
     }
 
@@ -57,9 +58,8 @@ public class JukeBox implements Runnable {
     }
 
     public void stop() {
-        isRunning = false;
-        pause();
-        reset();
+        this.pause();
+        this.isRunning = false;
     }
 
     public void record() {
@@ -68,19 +68,24 @@ public class JukeBox implements Runnable {
 
     @Override
     public void run() {
-        int i = lastPlayedToken;
+        int i = 0;
 
-        while (isRunning) {
-            if (!isPaused) {
-                Token token = tokens.get(i);
-                player.play(token);
+        while (this.isRunning) {
+            if (this.resetTokens) {
+                i = 0;
+                this.resetTokens = false;
+            }
 
-                lastPlayedToken = i;
+            if (i == this.tokens.size()) {
+                this.stop();
+                this.onFinish();
+                break;
+            }
+
+            if (!this.isPaused) {
+                Token token = this.tokens.get(i);
+                this.player.play(token);
                 i++;
-
-                if (i == tokens.size()) {
-                    stop();
-                }
             } else {
                 try {
                     Thread.sleep(100);
@@ -89,8 +94,18 @@ public class JukeBox implements Runnable {
                 }
             }
         }
-
     }
 
+    private void onFinish() {
+        if (this.finishListener != null) {
+            this.finishListener.onFinish();
+        }
+    }
 
+    private void reviveThreadIfNecessary() {
+        if(!this.playerThread.isAlive()) {
+            this.playerThread = new Thread(this);
+            this.playerThread.start();
+        }
+    }
 }

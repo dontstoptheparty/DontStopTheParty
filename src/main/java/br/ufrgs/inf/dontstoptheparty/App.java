@@ -1,23 +1,14 @@
 package br.ufrgs.inf.dontstoptheparty;
 
-import br.ufrgs.inf.dontstoptheparty.enumerator.Instrument;
-import br.ufrgs.inf.dontstoptheparty.enumerator.Note;
 import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBox;
 import br.ufrgs.inf.dontstoptheparty.mediaprocessor.TextProcessor;
 import br.ufrgs.inf.dontstoptheparty.player.JavaSoundPlayer;
 import br.ufrgs.inf.dontstoptheparty.recorder.JFugueRecorder;
-import br.ufrgs.inf.dontstoptheparty.token.NoteToken;
-import br.ufrgs.inf.dontstoptheparty.token.Token;
-import br.ufrgs.inf.dontstoptheparty.token.actions.ChangeInstrumentActionToken;
-import br.ufrgs.inf.dontstoptheparty.token.actions.DoubleVolumeActionToken;
-import br.ufrgs.inf.dontstoptheparty.token.actions.IncreaseInstrumentActionToken;
-import br.ufrgs.inf.dontstoptheparty.token.actions.IncreaseOctaveActionToken;
-import br.ufrgs.inf.dontstoptheparty.ui.MainWindow;
+import br.ufrgs.inf.dontstoptheparty.ui.Main;
 
 import javax.sound.midi.MidiUnavailableException;
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Hello world!
@@ -31,10 +22,10 @@ public class App {
 //        tokenList.add(new ChangeInstrumentActionToken(Instrument.ACOUSTIC_PIANO));
 //        tokenList.add(new NoteToken(Note.DO));
 //        tokenList.add(new NoteToken(Note.DO));
-////        tokenList.add(new SilenceActionToken());
-////        tokenList.add(new SilenceActionToken());
-////        tokenList.add(new SilenceActionToken());
-////        tokenList.add(new SilenceActionToken());
+//        tokenList.add(new SilenceActionToken());
+//        tokenList.add(new SilenceActionToken());
+//        tokenList.add(new SilenceActionToken());
+//        tokenList.add(new SilenceActionToken());
 //        tokenList.add(new NoteToken(Note.RE));
 //        tokenList.add(new NoteToken(Note.RE));
 //        tokenList.add(new NoteToken(Note.MI));
@@ -65,21 +56,22 @@ public class App {
 //
 //        // TODO HERE WE CAN START THE "INTEGRATION TESTS"
 //        System.out.println("Write the song: ");
-//        String inputSong = "aA?BCDEFGAbABBBCCCDD!3BBGD4,AB;CD?EFG";
-//        TextProcessor textProcessor = new TextProcessor();
-//        List<Token> tokens = textProcessor.convert(inputSong);
-//
-//        try {
-//            JavaSoundPlayer player = new JavaSoundPlayer();
-//            JFugueRecorder recorder = new JFugueRecorder();
-//            JukeBox jukeBox = new JukeBox(tokens, player, recorder);
-//
-//            jukeBox.start();
-//        } catch (MidiUnavailableException e) {
-//            e.printStackTrace();
-//        }
+        /*
+        String inputSong = "aA?BCDEFGAbABBBCCCDD!3BBGD4,AB;CD?EFG";
+        TextProcessor textProcessor = new TextProcessor();
+        List<Token> tokens = textProcessor.convert(inputSong);
 
+        try {
+            JavaSoundPlayer player = new JavaSoundPlayer();
+            JFugueRecorder recorder = new JFugueRecorder();
+            JukeBox jukeBox = new JukeBox(tokens, player, recorder);
 
+            jukeBox.start();
+        } catch (MidiUnavailableException e) {
+            e.printStackTrace();
+        }
+
+*/
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
@@ -88,7 +80,16 @@ public class App {
          
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainWindow().setVisible(true);
+                final JavaSoundPlayer player;
+                try {
+                    player = new JavaSoundPlayer();
+                    final JFugueRecorder recorder = new JFugueRecorder();
+                    final JukeBox jukeBox = new JukeBox(new ArrayList<>(), player, recorder);
+                    final TextProcessor textProcessor = new TextProcessor();
+                    new Main(jukeBox, textProcessor).display();
+                } catch (MidiUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

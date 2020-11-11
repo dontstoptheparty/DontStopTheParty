@@ -50,6 +50,11 @@ public class TextProcessor implements MediaProcessorInterface<String> {
     @Override
     public List<Token> convert(String entry) {
         final List<Token> tokenList = new ArrayList<>();
+
+        if (entry.length() == 0) {
+            return tokenList;
+        }
+
         char previousChar = entry.charAt(0);
 
         for (char ch : entry.toCharArray()) {
