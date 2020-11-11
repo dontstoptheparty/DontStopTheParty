@@ -18,7 +18,7 @@ public class JFugueRecorder extends Recorder {
     }
 
     @Override
-    public void record(List<Token> tokens) {
+    public void record(List<Token> tokens, String directory) throws IOException {
         final Pattern finalPattern = new Pattern();
         Pattern tempPatter;
 
@@ -31,11 +31,9 @@ public class JFugueRecorder extends Recorder {
             }
         }
 
-        try {
-            MidiFileManager.savePatternToMidi(finalPattern, new File("Test2.mid"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        final String filename = this.getFilename();
+        final File newFile = new File(directory + "/" + filename);
+        MidiFileManager.savePatternToMidi(finalPattern, newFile);
 
         this.playerState.resetToDefault();
     }
