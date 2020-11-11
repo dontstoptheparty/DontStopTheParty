@@ -3,7 +3,12 @@ package br.ufrgs.inf.dontstoptheparty.ui;
 import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBox;
 import br.ufrgs.inf.dontstoptheparty.mediaprocessor.TextProcessor;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
+import br.ufrgs.inf.dontstoptheparty.utils.DirectoryUtils;
+import br.ufrgs.inf.dontstoptheparty.utils.FileUtils;
+
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.IOException;
 import java.util.List;
 
 public class Main {
@@ -23,6 +28,10 @@ public class Main {
     private static final String START_TEXT = "Start";
     private static final String PLAY_TEXT = "Play";
     private static final String PAUSE_TEXT = "Pause";
+    private static final String FILE_READ_ERROR = "Error reading selected text file.";
+    private static final String INVALID_TEXT_FILE = "Invalid text file.";
+    private static final String RECORD_SAVE_ERROR = "Error saving your music.";
+    private static final String INVALID_DIRECTORY = "Invalid directory.";
 
     public Main(JukeBox newJukeBox, TextProcessor newTextProcessor) {
         this.jukeBox = newJukeBox;
@@ -37,6 +46,14 @@ public class Main {
         this.resetButton.addActionListener(actionEvent -> this.handleResetButtonClick());
         this.openFileButton.addActionListener(actionEvent -> this.handleOpenFileButtonClick());
         this.buttonRecord.addActionListener(actionEvent -> this.handleRecordButtonClick());
+    }
+
+    public void display() {
+        JFrame frame = new JFrame("DontStopTheParty");
+        frame.setContentPane(mainPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
     }
 
     private void handlePlayPauseButtonClick() {
@@ -56,9 +73,7 @@ public class Main {
             this.jukeBox.stop();
             this.isPlaying = false;
         } else {
-            final String musicText = this.musicTextArea.getText();
-            final List<Token> tokens = this.textProcessor.convert(musicText);
-            this.jukeBox.reload(tokens);
+            this.loadJukeboxTokens();
             this.jukeBox.start();
             this.isPlaying = true;
         }
@@ -71,13 +86,32 @@ public class Main {
     }
 
     private void handleOpenFileButtonClick() {
-
+        final String filePath = FileUtils.chooseFile();
+        if (filePath != null) {
+            try {
+                final String fileText = FileUtils.readTextFromTextFile(filePath);
+                this.musicTextArea.setText(fileText);
+            } catch (IOException e) {
+                this.showMessageDialog(FILE_READ_ERROR);
+            }
+        } else {
+            this.showMessageDialog(INVALID_TEXT_FILE);
+        }
     }
 
     private void handleRecordButtonClick() {
-        this.jukeBox.record();
+        final String directory = DirectoryUtils.chooseDirectory();
+        if (directory != null) {
+            this.loadJukeboxTokens();
+            try {
+                this.jukeBox.record(directory);
+            } catch (IOException e) {
+                this.showMessageDialog(RECORD_SAVE_ERROR);
+            }
+        } else {
+            this.showMessageDialog(INVALID_DIRECTORY);
+        }
     }
-
 
     private void finishCallback() {
         this.isPlaying = false;
@@ -93,9 +127,9 @@ public class Main {
 
     private void updatePlayPauseButton() {
         if (this.isPlaying) {
-            this.playPauseButton.setText(this.PAUSE_TEXT);
+            this.playPauseButton.setText(PAUSE_TEXT);
         } else {
-            this.playPauseButton.setText(this.PLAY_TEXT);
+            this.playPauseButton.setText(PLAY_TEXT);
         }
 
         if (this.isRunning) {
@@ -107,9 +141,9 @@ public class Main {
 
     private void updateStartStopButton() {
         if (this.isRunning) {
-            this.startStopButton.setText(this.STOP_TEXT);
+            this.startStopButton.setText(STOP_TEXT);
         } else {
-            this.startStopButton.setText(this.START_TEXT);
+            this.startStopButton.setText(START_TEXT);
         }
     }
 
@@ -121,11 +155,13 @@ public class Main {
         }
     }
 
-    public void display() {
-        JFrame frame = new JFrame("DontStopTheParty");
-        frame.setContentPane(mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+    private void loadJukeboxTokens() {
+        final String musicText = this.musicTextArea.getText();
+        final List<Token> tokens = this.textProcessor.convert(musicText);
+        this.jukeBox.reload(tokens);
+    }
+
+    private void showMessageDialog(String message) {
+        JOptionPane.showMessageDialog(null, message);
     }
 }

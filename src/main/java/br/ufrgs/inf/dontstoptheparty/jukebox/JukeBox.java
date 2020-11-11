@@ -4,6 +4,7 @@ import br.ufrgs.inf.dontstoptheparty.player.Player;
 import br.ufrgs.inf.dontstoptheparty.recorder.Recorder;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 
+import java.io.IOException;
 import java.util.List;
 
 public class JukeBox implements Runnable {
@@ -62,8 +63,8 @@ public class JukeBox implements Runnable {
         this.isRunning = false;
     }
 
-    public void record() {
-        this.recorder.record(tokens);
+    public void record(String directory) throws IOException {
+        this.recorder.record(tokens, directory);
     }
 
     @Override
