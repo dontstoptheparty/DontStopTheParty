@@ -1,13 +1,13 @@
-package br.ufrgs.inf.dontstoptheparty.recorder;
+package br.ufrgs.inf.dontstoptheparty.song.recorder;
 
-import br.ufrgs.inf.dontstoptheparty.player.PlayerState;
+import br.ufrgs.inf.dontstoptheparty.song.SongState;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 
 import java.io.IOException;
-import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public abstract class Recorder {
@@ -15,10 +15,10 @@ public abstract class Recorder {
 
     private static String DATA_PATTERN = "MM-dd-yyyy_HH-mm-ss";
 
-    protected final PlayerState playerState;
+    protected final SongState songState;
 
     public Recorder() {
-        this.playerState = new PlayerState();
+        this.songState = new SongState();
     }
 
     public abstract void record(List<Token> tokens, String directory) throws IOException;

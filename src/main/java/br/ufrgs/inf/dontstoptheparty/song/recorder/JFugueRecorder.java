@@ -1,4 +1,4 @@
-package br.ufrgs.inf.dontstoptheparty.recorder;
+package br.ufrgs.inf.dontstoptheparty.song.recorder;
 
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 import org.jfugue.midi.MidiFileManager;
@@ -23,7 +23,7 @@ public class JFugueRecorder extends Recorder {
         Pattern tempPatter;
 
         for (Token token : tokens) {
-            token.apply(this.playerState);
+            token.apply(this.songState);
             tempPatter = this.generateSingleNotePattern();
             if (tempPatter != null) {
                 finalPattern.add(tempPatter);
@@ -35,18 +35,18 @@ public class JFugueRecorder extends Recorder {
         final File newFile = new File(directory + "/" + filename);
         MidiFileManager.savePatternToMidi(finalPattern, newFile);
 
-        this.playerState.resetToDefault();
+        this.songState.resetToDefault();
     }
 
     private void cleanNoteAfterPlay() {
-        this.playerState.setNote(null);
+        this.songState.setNote(null);
     }
 
     private Pattern generateSingleNotePattern() {
-        if (this.playerState.isSilence()) {
-            this.playerState.setSilence(false);
+        if (this.songState.isSilence()) {
+            this.songState.setSilence(false);
             return new Pattern(this.getSilencePattern());
-        } else if (this.playerState.getNote() != null) {
+        } else if (this.songState.getNote() != null) {
             return new Pattern(this.getVolumePattern() +
                     this.getInstrumentPattern() +
                     this.getNoteWithOctave());
@@ -56,15 +56,15 @@ public class JFugueRecorder extends Recorder {
     }
 
     private String getVolumePattern() {
-        return ":CON(7, "+this.playerState.getVolume()+") ";
+        return ":CON(7, " + this.songState.getVolume() + ") ";
     }
 
     private String getInstrumentPattern() {
-        return "I"+this.playerState.getInstrument()+" ";
+        return "I" + this.songState.getInstrument() + " ";
     }
 
     private String getNoteWithOctave() {
-        return this.playerState.getNote().getStringNotation() + this.playerState.getOctave() + " ";
+        return this.songState.getNote().getStringNotation() + this.songState.getOctave() + " ";
     }
 
     private String getSilencePattern() {

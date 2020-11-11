@@ -1,8 +1,8 @@
-package br.ufrgs.inf.dontstoptheparty.player;
+package br.ufrgs.inf.dontstoptheparty.song;
 
 import br.ufrgs.inf.dontstoptheparty.enumerator.Instrument;
 
-public class PlayerConstants {
+public class SongConstants {
     public static final int DEFAULT_INSTRUMENT = Instrument.ACOUSTIC_PIANO.getGeneralMIDICode();
     public static final int DEFAULT_OCTAVE = 3;
     public static final int DEFAULT_VOLUME = 63;

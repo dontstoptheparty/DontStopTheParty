@@ -1,18 +1,18 @@
 package br.ufrgs.inf.dontstoptheparty.token.actions;
 
-import br.ufrgs.inf.dontstoptheparty.player.PlayerConstants;
-import br.ufrgs.inf.dontstoptheparty.player.PlayerState;
+import br.ufrgs.inf.dontstoptheparty.song.SongConstants;
+import br.ufrgs.inf.dontstoptheparty.song.SongState;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 
 public class IncreaseOctaveActionToken implements Token {
     @Override
-    public void apply(PlayerState playerState) {
-        final int newOctave = playerState.getOctave() + 1;
+    public void apply(SongState songState) {
+        final int newOctave = songState.getOctave() + 1;
 
-        if (newOctave > PlayerConstants.MAX_OCTAVE) {
-            playerState.setOctave(PlayerConstants.DEFAULT_OCTAVE);
+        if (newOctave > SongConstants.MAX_OCTAVE) {
+            songState.setOctave(SongConstants.DEFAULT_OCTAVE);
         } else {
-            playerState.setOctave(newOctave);
+            songState.setOctave(newOctave);
         }
     }
 

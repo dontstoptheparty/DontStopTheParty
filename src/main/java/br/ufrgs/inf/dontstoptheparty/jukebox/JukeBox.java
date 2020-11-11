@@ -1,7 +1,7 @@
 package br.ufrgs.inf.dontstoptheparty.jukebox;
 
-import br.ufrgs.inf.dontstoptheparty.player.Player;
-import br.ufrgs.inf.dontstoptheparty.recorder.Recorder;
+import br.ufrgs.inf.dontstoptheparty.song.player.Player;
+import br.ufrgs.inf.dontstoptheparty.song.recorder.Recorder;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 
 import java.io.IOException;

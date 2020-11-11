@@ -1,7 +1,7 @@
 package br.ufrgs.inf.dontstoptheparty.token;
 
-import br.ufrgs.inf.dontstoptheparty.player.PlayerState;
+import br.ufrgs.inf.dontstoptheparty.song.SongState;
 
 public interface Token {
-    void apply(PlayerState playerState);
+    void apply(SongState songState);
 }

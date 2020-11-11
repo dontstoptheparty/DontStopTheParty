@@ -2,8 +2,8 @@ package br.ufrgs.inf.dontstoptheparty;
 
 import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBoxImpl;
 import br.ufrgs.inf.dontstoptheparty.mediaprocessor.TextProcessor;
-import br.ufrgs.inf.dontstoptheparty.player.JavaSoundPlayer;
-import br.ufrgs.inf.dontstoptheparty.recorder.JFugueRecorder;
+import br.ufrgs.inf.dontstoptheparty.song.player.JavaSoundPlayer;
+import br.ufrgs.inf.dontstoptheparty.song.recorder.JFugueRecorder;
 import br.ufrgs.inf.dontstoptheparty.ui.Main;
 
 import javax.sound.midi.MidiUnavailableException;

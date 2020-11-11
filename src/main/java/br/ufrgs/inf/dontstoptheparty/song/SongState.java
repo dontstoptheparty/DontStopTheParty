@@ -1,23 +1,23 @@
-package br.ufrgs.inf.dontstoptheparty.player;
+package br.ufrgs.inf.dontstoptheparty.song;
 
 import br.ufrgs.inf.dontstoptheparty.enumerator.Note;
 
-public class PlayerState {
+public class SongState {
     private Note note;
     private int instrument;
     private int volume;
     private int octave;
     private boolean silence;
 
-    public PlayerState() {
+    public SongState() {
         this.resetToDefault();
     }
 
     public void resetToDefault() {
         this.note = null;
-        this.instrument = PlayerConstants.DEFAULT_INSTRUMENT;
-        this.volume = PlayerConstants.DEFAULT_VOLUME;
-        this.octave = PlayerConstants.DEFAULT_OCTAVE;
+        this.instrument = SongConstants.DEFAULT_INSTRUMENT;
+        this.volume = SongConstants.DEFAULT_VOLUME;
+        this.octave = SongConstants.DEFAULT_OCTAVE;
         this.silence = false;
     }
 
