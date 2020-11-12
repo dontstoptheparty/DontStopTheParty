@@ -9,6 +9,7 @@ public class UITextConstants {
 
     public static final String MIDI_UNAVAILABLE_EXCEPTION = "We are unable to play songs to you.";
     public static final String FILE_READ_ERROR = "Error reading selected text file.";
+    public static final String FILE_READ_ERROR_NOT_TXT_FILE = "Input file isn't a text file (.txt)";
     public static final String INVALID_TEXT_FILE = "Invalid text file.";
     public static final String RECORD_SAVE_ERROR = "Error saving your music.";
     public static final String INVALID_DIRECTORY = "Invalid directory.";

@@ -88,7 +88,7 @@ public class Main {
     }
 
     private void enableDragAndDrop() {
-        DropTarget target = new DropTarget(this.mainPanel, new DropTargetListener() {
+        DropTarget target = new DropTarget(this.musicTextArea, new DropTargetListener() {
             public void dragEnter(DropTargetDragEvent e) {
             }
 
@@ -101,9 +101,10 @@ public class Main {
             public void dropActionChanged(DropTargetDragEvent e) {
             }
 
+            @SuppressWarnings(value = "unchecked")
             public void drop(DropTargetDropEvent event) {
                 event.acceptDrop(DnDConstants.ACTION_COPY);
-                List<File> list = null;
+                List<File> list;
                 try {
                     list = (List<File>) event.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
                     File file = list.get(0);
@@ -126,7 +127,6 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-
     }
 
     private void handlePlayPauseButtonClick() {
