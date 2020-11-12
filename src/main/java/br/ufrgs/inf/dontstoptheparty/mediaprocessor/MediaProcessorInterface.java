@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MediaProcessorInterface<T> {
     List<Token> convert(T value);
+
+    int getOriginPositionFromListPosition(T value, List<Token> tokens, int position);
 }

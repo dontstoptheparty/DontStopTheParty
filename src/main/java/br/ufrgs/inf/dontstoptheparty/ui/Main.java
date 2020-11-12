@@ -1,14 +1,22 @@
 package br.ufrgs.inf.dontstoptheparty.ui;
 
+import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBox;
 import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBoxImpl;
 import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBoxListener;
+import br.ufrgs.inf.dontstoptheparty.mediaprocessor.MediaProcessorInterface;
 import br.ufrgs.inf.dontstoptheparty.mediaprocessor.TextProcessor;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 import br.ufrgs.inf.dontstoptheparty.utils.DirectoryUtils;
 import br.ufrgs.inf.dontstoptheparty.utils.FileUtils;
 
+import javax.sound.midi.MidiUnavailableException;
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -20,8 +28,8 @@ public class Main {
     private JTextArea musicTextArea;
     private JButton buttonRecord;
 
-    private final TextProcessor textProcessor;
-    private final JukeBoxImpl jukeBox;
+    private static final String DEFAULT_ERROR_TITLE_DIALOG = "Error";
+    private static final String RECORD_SAVE_SUCCESSFUL = "File was successfully recorded.";
     private boolean isPlaying;
     private boolean isRunning;
 
@@ -29,27 +37,39 @@ public class Main {
     private static final String START_TEXT = "Start";
     private static final String PLAY_TEXT = "Play";
     private static final String PAUSE_TEXT = "Pause";
+    private static final String MIDI_UNAVAILABLE_EXCEPTION = "We are unable to play songs to you.";
     private static final String FILE_READ_ERROR = "Error reading selected text file.";
     private static final String INVALID_TEXT_FILE = "Invalid text file.";
     private static final String RECORD_SAVE_ERROR = "Error saving your music.";
+    private final MediaProcessorInterface<String> textProcessor;
     private static final String INVALID_DIRECTORY = "Invalid directory.";
+    private final JukeBox jukeBox;
 
-    public Main(JukeBoxImpl newJukeBox, TextProcessor newTextProcessor) {
+    public Main() throws MidiUnavailableException {
+        this(new JukeBoxImpl(new ArrayList<>()), new TextProcessor());
+    }
+
+    public Main(JukeBox newJukeBox, MediaProcessorInterface<String> newMediaProcessor) {
         this.jukeBox = newJukeBox;
-        this.textProcessor = newTextProcessor;
+        this.textProcessor = newMediaProcessor;
         this.isPlaying = false;
         this.isRunning = false;
         this.updateButtons();
 
         this.jukeBox.setFinishListener(new JukeBoxListener() {
             @Override
+            public void onStarted() {
+                jukeBoxStartListener();
+            }
+
+            @Override
             public void onTokenPlayed(List<Token> tokens, int position) {
-                changeHighlightedText(tokens, position);
+                jukeBoxTokenPlayedListener(tokens, position);
             }
 
             @Override
             public void onFinish() {
-                finishListener();
+                jukeBoxFinishListener();
             }
         });
         this.playPauseButton.addActionListener(actionEvent -> this.handlePlayPauseButtonClick());
@@ -92,6 +112,14 @@ public class Main {
         this.updateButtons();
     }
 
+    private void unblockTextArea() {
+        this.musicTextArea.setEditable(true);
+    }
+
+    private void blockTextArea() {
+        this.musicTextArea.setEditable(false);
+    }
+
     private void handleResetButtonClick() {
         this.jukeBox.reset();
     }
@@ -103,10 +131,10 @@ public class Main {
                 final String fileText = FileUtils.readTextFromTextFile(filePath);
                 this.musicTextArea.setText(fileText);
             } catch (IOException e) {
-                this.showMessageDialog(FILE_READ_ERROR);
+                this.showErrorDialog(FILE_READ_ERROR);
             }
         } else {
-            this.showMessageDialog(INVALID_TEXT_FILE);
+            this.showErrorDialog(INVALID_TEXT_FILE);
         }
     }
 
@@ -116,23 +144,52 @@ public class Main {
             this.loadJukeboxTokens();
             try {
                 this.jukeBox.record(directory);
+                this.showMessageDialog(RECORD_SAVE_SUCCESSFUL);
             } catch (IOException e) {
-                this.showMessageDialog(RECORD_SAVE_ERROR);
+                this.showErrorDialog(RECORD_SAVE_ERROR);
             }
         } else {
-            this.showMessageDialog(INVALID_DIRECTORY);
+            this.showErrorDialog(INVALID_DIRECTORY);
         }
     }
 
-    private void changeHighlightedText(List<Token> tokens, int position) {
-        final String musicText = this.musicTextArea.getText();
-//        final List<Token> tokens = this.textProcessor.convert(musicText);
+    private void jukeBoxStartListener() {
+        this.blockTextArea();
+        highlightCharTextArea(0);
     }
 
-    private void finishListener() {
+    private void jukeBoxTokenPlayedListener(List<Token> tokens, int position) {
+        final String musicText = this.musicTextArea.getText();
+        int charAt = textProcessor.getOriginPositionFromListPosition(musicText, tokens, position);
+
+        highlightCharTextArea(charAt);
+    }
+
+    private void jukeBoxFinishListener() {
         this.isPlaying = false;
         this.isRunning = false;
+        unhighlightTextArea();
+        unblockTextArea();
         this.updateButtons();
+    }
+
+    private void highlightCharTextArea(int startHighlight) {
+        int endHighlight = startHighlight + 1;
+        if (endHighlight <= musicTextArea.getText().length()) {
+            try {
+                Highlighter highlighter = musicTextArea.getHighlighter();
+                Highlighter.HighlightPainter highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
+                highlighter.removeAllHighlights();
+                highlighter.addHighlight(startHighlight, endHighlight, highlightPainter);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void unhighlightTextArea() {
+        Highlighter highlighter = musicTextArea.getHighlighter();
+        highlighter.removeAllHighlights();
     }
 
     private void updateButtons() {
@@ -171,5 +228,9 @@ public class Main {
 
     private void showMessageDialog(String message) {
         JOptionPane.showMessageDialog(null, message);
+    }
+
+    private void showErrorDialog(String message) {
+        JOptionPane.showMessageDialog(null, message, DEFAULT_ERROR_TITLE_DIALOG, JOptionPane.ERROR_MESSAGE);
     }
 }

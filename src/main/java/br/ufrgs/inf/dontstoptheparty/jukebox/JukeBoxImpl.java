@@ -1,9 +1,12 @@
 package br.ufrgs.inf.dontstoptheparty.jukebox;
 
+import br.ufrgs.inf.dontstoptheparty.song.player.JavaSoundPlayer;
 import br.ufrgs.inf.dontstoptheparty.song.player.Player;
+import br.ufrgs.inf.dontstoptheparty.song.recorder.JFugueRecorder;
 import br.ufrgs.inf.dontstoptheparty.song.recorder.Recorder;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 
+import javax.sound.midi.MidiUnavailableException;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,6 +25,9 @@ public class JukeBoxImpl extends JukeBox implements Runnable {
         this.playerThread = new Thread(this);
     }
 
+    public JukeBoxImpl(List<Token> tokens) throws MidiUnavailableException {
+        this(tokens, new JavaSoundPlayer(), new JFugueRecorder());
+    }
 
     /**
      * {@inheritDoc}
@@ -79,6 +85,7 @@ public class JukeBoxImpl extends JukeBox implements Runnable {
     @Override
     public void run() {
         int i = 0;
+        onJukeBoxStarted();
 
         while (this.isRunning) {
             if (this.resetTokens) {
@@ -104,6 +111,12 @@ public class JukeBoxImpl extends JukeBox implements Runnable {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    private void onJukeBoxStarted() {
+        if (this.jukeBoxListener != null) {
+            this.jukeBoxListener.onStarted();
         }
     }
 
