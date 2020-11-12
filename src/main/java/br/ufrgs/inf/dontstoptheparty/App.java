@@ -17,7 +17,17 @@ public class App {
 
         java.awt.EventQueue.invokeLater(() -> {
             try {
-                new Main().display();
+                Main mainWindow;
+
+                // Verifies if has some input file as argument
+                if (args.length == 1) {
+                    final String filePath = args[0];
+                    mainWindow = new Main(filePath);
+                } else {
+                    mainWindow = new Main();
+                }
+                mainWindow.display();
+
             } catch (MidiUnavailableException e) {
                 UIUtils.showErrorDialog(UITextConstants.MIDI_UNAVAILABLE_EXCEPTION);
                 e.printStackTrace();

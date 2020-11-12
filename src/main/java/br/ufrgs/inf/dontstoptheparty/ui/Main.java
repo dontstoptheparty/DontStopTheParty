@@ -15,6 +15,7 @@ import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.*;
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +41,11 @@ public class Main {
 
     public Main() throws MidiUnavailableException {
         this(new JukeBoxImpl(new ArrayList<>()), new TextProcessor());
+    }
+
+    public Main(String filePath) throws MidiUnavailableException {
+        this(new JukeBoxImpl(new ArrayList<>()), new TextProcessor());
+        openFile(filePath);
     }
 
     public Main(JukeBox newJukeBox, MediaProcessorInterface<String> newMediaProcessor) {
@@ -95,15 +101,16 @@ public class Main {
             public void dropActionChanged(DropTargetDragEvent e) {
             }
 
-            public void drop(DropTargetDropEvent e) {
+            public void drop(DropTargetDropEvent event) {
+                event.acceptDrop(DnDConstants.ACTION_COPY);
+                List<File> list = null;
                 try {
-                    e.acceptDrop(DnDConstants.ACTION_COPY);
-                    List<File> list = (List<File>) e.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+                    list = (List<File>) event.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
                     File file = list.get(0);
-
-                    updateMusicTextAreaText(FileUtils.readTextFromTextFile(file.getPath()));
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                    openFile(file.getPath());
+                } catch (UnsupportedFlavorException | IOException e) {
+                    UIUtils.showErrorDialog(INVALID_TEXT_FILE);
+                    e.printStackTrace();
                 }
             }
         });
@@ -153,10 +160,18 @@ public class Main {
 
     private void handleOpenFileButtonClick() {
         final String filePath = UIUtils.chooseFile();
+        openFile(filePath);
+    }
+
+    private void openFile(String filePath) {
         if (filePath != null) {
             try {
                 final String fileText = FileUtils.readTextFromTextFile(filePath);
-                this.musicTextArea.setText(fileText);
+                if (fileText != null) {
+                    updateMusicTextAreaText(fileText);
+                } else {
+                    UIUtils.showErrorDialog(FILE_READ_ERROR_NOT_TXT_FILE);
+                }
             } catch (IOException e) {
                 UIUtils.showErrorDialog(FILE_READ_ERROR);
             }
