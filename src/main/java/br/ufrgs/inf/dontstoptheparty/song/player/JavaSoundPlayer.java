@@ -10,13 +10,12 @@ import javax.sound.midi.Synthesizer;
 public class JavaSoundPlayer extends Player {
     private static final int DEFAULT_NOTE_DURATION_IN_MILLISECONDS = 800;
 
-    private final Synthesizer midiSynth;
     private final MidiChannel mChannel;
 
     public JavaSoundPlayer() throws MidiUnavailableException {
         super();
-        this.midiSynth = MidiSystem.getSynthesizer();
-        this.midiSynth.loadAllInstruments(midiSynth.getDefaultSoundbank());
+        Synthesizer midiSynth = MidiSystem.getSynthesizer();
+        midiSynth.loadAllInstruments(midiSynth.getDefaultSoundbank());
 
         midiSynth.open();
         this.mChannel = midiSynth.getChannels()[0];
@@ -87,7 +86,7 @@ public class JavaSoundPlayer extends Player {
     }
 
     /**
-     * Given a frequency in BPM (beats per minute) calculate note duration in milliseconds
+     * Given a frequency in BPM (beats per minute), calculate note duration in milliseconds
      *
      * @param bpm Frequency in BPM
      * @return noteDuration
