@@ -20,7 +20,7 @@ public class TextProcessorTest {
     @Test
     public void testForDefaultValue(){
         String charList = "ABCDEFG!I1i2U3\nu4;5,6789 ?aGz";
-        final List<Token> expectedList = new ArrayList<Token>(){{
+        final List<Token> expectedList = new ArrayList<>() {{
             //ABCDEFG!I1i2U3\nu4;5,6789 ?aGz
             add(new NoteToken(Note.LA));
             add(new NoteToken(Note.SI));
@@ -60,4 +60,108 @@ public class TextProcessorTest {
         assertEquals(expectedList.size(), resultList.size());
         assertEquals(expectedList, resultList);
     }
+
+
+    @Test
+    public void testForElseValueAtFirst() {
+        String charList = "a";
+        final List<Token> expectedList = new ArrayList<>() {{
+            add(new SilenceActionToken());
+        }};
+
+        List<Token> resultList = textProcessor.convert(charList);
+
+        assertNotNull(resultList);
+        assertEquals(expectedList.size(), resultList.size());
+        assertEquals(expectedList, resultList);
+    }
+
+    @Test
+    public void testForSequenceElseValues() {
+        String charList = "Aaabb";
+        final List<Token> expectedList = new ArrayList<>() {{
+            add(new NoteToken(Note.LA));
+            add(new NoteToken(Note.LA));
+            add(new SilenceActionToken());
+            add(new SilenceActionToken());
+            add(new SilenceActionToken());
+        }};
+
+        List<Token> resultList = textProcessor.convert(charList);
+
+        assertNotNull(resultList);
+        assertEquals(expectedList.size(), resultList.size());
+        assertEquals(expectedList, resultList);
+    }
+
+
+    @Test
+    public void testForAccentedCharacters() {
+        String charList = "Aàú";
+        final List<Token> expectedList = new ArrayList<>() {{
+            add(new NoteToken(Note.LA));
+            add(new NoteToken(Note.LA));
+            add(new SilenceActionToken());
+        }};
+
+        List<Token> resultList = textProcessor.convert(charList);
+
+        assertNotNull(resultList);
+        assertEquals(expectedList.size(), resultList.size());
+        assertEquals(expectedList, resultList);
+    }
+
+    @Test
+    public void testForNonAlphabeticalCharacters() {
+        String charList = "A絵B文字\uD83D\uDE04C\uD83D\uDE22D\uD83D\uDE33Eππ";
+        final List<Token> expectedList = new ArrayList<>() {{
+            add(new NoteToken(Note.LA));
+            add(new NoteToken(Note.LA));
+            add(new NoteToken(Note.SI));
+            add(new NoteToken(Note.SI));
+            add(new SilenceActionToken());
+            add(new SilenceActionToken());
+            add(new SilenceActionToken());
+            add(new NoteToken(Note.DO));
+            add(new NoteToken(Note.DO));
+            add(new SilenceActionToken());
+            add(new NoteToken(Note.RE));
+            add(new NoteToken(Note.RE));
+            add(new SilenceActionToken());
+            add(new NoteToken(Note.MI));
+            add(new NoteToken(Note.MI));
+            add(new SilenceActionToken());
+        }};
+
+        List<Token> resultList = textProcessor.convert(charList);
+
+        assertNotNull(resultList);
+        assertEquals(expectedList.size(), resultList.size());
+        assertEquals(expectedList, resultList);
+    }
+
+    @Test
+    public void testForEmptyString() {
+        String charList = "";
+        final List<Token> expectedList = new ArrayList<>();
+
+        List<Token> resultList = textProcessor.convert(charList);
+
+        assertNotNull(resultList);
+        assertEquals(expectedList.size(), resultList.size());
+        assertEquals(expectedList, resultList);
+    }
+
+    @Test
+    public void testForNullString() {
+        String charList = null;
+        final List<Token> expectedList = new ArrayList<>();
+
+        List<Token> resultList = textProcessor.convert(charList);
+
+        assertNotNull(resultList);
+        assertEquals(expectedList.size(), resultList.size());
+        assertEquals(expectedList, resultList);
+    }
+
 }
