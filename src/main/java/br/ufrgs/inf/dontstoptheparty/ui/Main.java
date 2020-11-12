@@ -6,7 +6,6 @@ import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBoxListener;
 import br.ufrgs.inf.dontstoptheparty.mediaprocessor.MediaProcessorInterface;
 import br.ufrgs.inf.dontstoptheparty.mediaprocessor.TextProcessor;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
-import br.ufrgs.inf.dontstoptheparty.utils.DirectoryUtils;
 import br.ufrgs.inf.dontstoptheparty.utils.FileUtils;
 
 import javax.sound.midi.MidiUnavailableException;
@@ -19,6 +18,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static br.ufrgs.inf.dontstoptheparty.ui.UITextConstants.*;
+
 public class Main {
     private JPanel mainPanel;
     private JButton playPauseButton;
@@ -28,21 +29,10 @@ public class Main {
     private JTextArea musicTextArea;
     private JButton buttonRecord;
 
-    private static final String DEFAULT_ERROR_TITLE_DIALOG = "Error";
-    private static final String RECORD_SAVE_SUCCESSFUL = "File was successfully recorded.";
     private boolean isPlaying;
     private boolean isRunning;
 
-    private static final String STOP_TEXT = "Stop";
-    private static final String START_TEXT = "Start";
-    private static final String PLAY_TEXT = "Play";
-    private static final String PAUSE_TEXT = "Pause";
-    private static final String MIDI_UNAVAILABLE_EXCEPTION = "We are unable to play songs to you.";
-    private static final String FILE_READ_ERROR = "Error reading selected text file.";
-    private static final String INVALID_TEXT_FILE = "Invalid text file.";
-    private static final String RECORD_SAVE_ERROR = "Error saving your music.";
     private final MediaProcessorInterface<String> textProcessor;
-    private static final String INVALID_DIRECTORY = "Invalid directory.";
     private final JukeBox jukeBox;
 
     public Main() throws MidiUnavailableException {
@@ -125,31 +115,31 @@ public class Main {
     }
 
     private void handleOpenFileButtonClick() {
-        final String filePath = FileUtils.chooseFile();
+        final String filePath = UIUtils.chooseFile();
         if (filePath != null) {
             try {
                 final String fileText = FileUtils.readTextFromTextFile(filePath);
                 this.musicTextArea.setText(fileText);
             } catch (IOException e) {
-                this.showErrorDialog(FILE_READ_ERROR);
+                UIUtils.showErrorDialog(FILE_READ_ERROR);
             }
         } else {
-            this.showErrorDialog(INVALID_TEXT_FILE);
+            UIUtils.showErrorDialog(INVALID_TEXT_FILE);
         }
     }
 
     private void handleRecordButtonClick() {
-        final String directory = DirectoryUtils.chooseDirectory();
+        final String directory = UIUtils.chooseDirectory();
         if (directory != null) {
             this.loadJukeboxTokens();
             try {
                 this.jukeBox.record(directory);
-                this.showMessageDialog(RECORD_SAVE_SUCCESSFUL);
+                UIUtils.showMessageDialog(RECORD_SAVE_SUCCESSFUL);
             } catch (IOException e) {
-                this.showErrorDialog(RECORD_SAVE_ERROR);
+                UIUtils.showErrorDialog(RECORD_SAVE_ERROR);
             }
         } else {
-            this.showErrorDialog(INVALID_DIRECTORY);
+            UIUtils.showErrorDialog(INVALID_DIRECTORY);
         }
     }
 
@@ -226,11 +216,5 @@ public class Main {
         this.jukeBox.reload(tokens);
     }
 
-    private void showMessageDialog(String message) {
-        JOptionPane.showMessageDialog(null, message);
-    }
 
-    private void showErrorDialog(String message) {
-        JOptionPane.showMessageDialog(null, message, DEFAULT_ERROR_TITLE_DIALOG, JOptionPane.ERROR_MESSAGE);
-    }
 }
