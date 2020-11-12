@@ -51,37 +51,36 @@ public class TextProcessor implements MediaProcessorInterface<String> {
     public List<Token> convert(String entry) {
         final List<Token> tokenList = new ArrayList<>();
 
+        if (entry == null) {
+            return tokenList;
+        }
+
         if (entry.length() == 0) {
             return tokenList;
         }
 
-        char previousChar = entry.charAt(0);
+        Token previousToken = null;
 
         for (char ch : entry.toCharArray()) {
-            Token aux = charToTokenMap.get(ch);
-            if (aux != null) {
+            Token currentToken = charToTokenMap.get(ch);
+            if (currentToken != null) {
                 tokenList.add(charToTokenMap.get(ch));
-            }
-            else{
-                switch (previousChar){
-                case 'A':
-                case 'B':
-                case 'C':
-                case 'D':
-                case 'E':
-                case 'F':
-                case 'G':
-                tokenList.add(charToTokenMap.get(previousChar));
-                break;
-
-                default:
-                tokenList.add(new SilenceActionToken());
+            } else {
+                if (previousToken instanceof NoteToken) {
+                    tokenList.add(previousToken);
+                } else {
+                    tokenList.add(new SilenceActionToken());
                 }
             }
-            previousChar = ch;
+            previousToken = currentToken;
         }
         return tokenList;
     }
 
+
+    public int getOriginPositionFromListPosition(String entry, List<Token> tokens, int position) {
+        // TODO Generify
+        return position;
+    }
 }
 
