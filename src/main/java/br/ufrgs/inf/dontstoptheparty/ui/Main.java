@@ -14,6 +14,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,11 +65,52 @@ public class Main {
                 jukeBoxFinishListener();
             }
         });
+
+        this.playPauseButton.setMnemonic('P');
+        this.startStopButton.setMnemonic('S');
+        this.buttonRecord.setMnemonic('R');
+        this.openFileButton.setMnemonic('O');
+        this.resetButton.setMnemonic('e');
+
         this.playPauseButton.addActionListener(actionEvent -> this.handlePlayPauseButtonClick());
         this.startStopButton.addActionListener(actionEvent -> this.handleStartStopButtonClick());
         this.resetButton.addActionListener(actionEvent -> this.handleResetButtonClick());
         this.openFileButton.addActionListener(actionEvent -> this.handleOpenFileButtonClick());
         this.buttonRecord.addActionListener(actionEvent -> this.handleRecordButtonClick());
+
+        enableDragAndDrop();
+    }
+
+    private void enableDragAndDrop() {
+        DropTarget target = new DropTarget(this.mainPanel, new DropTargetListener() {
+            public void dragEnter(DropTargetDragEvent e) {
+            }
+
+            public void dragExit(DropTargetEvent e) {
+            }
+
+            public void dragOver(DropTargetDragEvent e) {
+            }
+
+            public void dropActionChanged(DropTargetDragEvent e) {
+            }
+
+            public void drop(DropTargetDropEvent e) {
+                try {
+                    e.acceptDrop(DnDConstants.ACTION_COPY);
+                    List<File> list = (List<File>) e.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+                    File file = list.get(0);
+
+                    updateMusicTextAreaText(FileUtils.readTextFromTextFile(file.getPath()));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void updateMusicTextAreaText(String readTextFromTextFile) {
+        this.musicTextArea.setText(readTextFromTextFile);
     }
 
     public void display() {
@@ -75,6 +119,7 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+
     }
 
     private void handlePlayPauseButtonClick() {
@@ -100,14 +145,6 @@ public class Main {
         }
         this.isRunning = !this.isRunning;
         this.updateButtons();
-    }
-
-    private void unblockTextArea() {
-        this.musicTextArea.setEditable(true);
-    }
-
-    private void blockTextArea() {
-        this.musicTextArea.setEditable(false);
     }
 
     private void handleResetButtonClick() {
@@ -161,6 +198,14 @@ public class Main {
         unhighlightTextArea();
         unblockTextArea();
         this.updateButtons();
+    }
+
+    private void unblockTextArea() {
+        this.musicTextArea.setEditable(true);
+    }
+
+    private void blockTextArea() {
+        this.musicTextArea.setEditable(false);
     }
 
     private void highlightCharTextArea(int startHighlight) {

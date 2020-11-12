@@ -36,6 +36,7 @@
               <background color="-12895429"/>
               <foreground color="-3223858"/>
               <text value="Play/Pause"/>
+              <toolTipText value="Play or Pause the music"/>
             </properties>
           </component>
           <component id="9c830" class="javax.swing.JButton" binding="resetButton" default-binding="true">
@@ -117,6 +118,7 @@
           <background color="-12895429"/>
           <foreground color="-3223858"/>
           <text value="Open file"/>
+          <toolTipText value="Open a text file containing a music text"/>
         </properties>
       </component>
       <grid id="a0954" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -141,6 +143,7 @@
           <background color="-12895429"/>
           <foreground color="-3223858"/>
           <text value="Record"/>
+          <toolTipText value="Records a MIDI file with the written text"/>
         </properties>
       </component>
     </children>
