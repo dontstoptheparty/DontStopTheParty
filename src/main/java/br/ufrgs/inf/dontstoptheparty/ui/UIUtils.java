@@ -32,21 +32,40 @@ public class UIUtils {
         }
     }
 
+    /**
+     * Opens a windows chooser to chose a file and returns it's path
+     *
+     * @return file chosen path
+     */
     public static String chooseFile() {
         return choose(CHOOSER_FILE_TITLE,
                 new FileNameExtensionFilter("Text files", "txt"),
                 JFileChooser.FILES_ONLY);
     }
 
-
+    /**
+     * Opens a windows chooser to chose a directory and returns it's path
+     *
+     * @return directory chosen path
+     */
     public static String chooseDirectory() {
         return choose(CHOOSER_DIRECTORY_TITLE, null, JFileChooser.DIRECTORIES_ONLY);
     }
 
+    /**
+     * Show a dialog with a message
+     *
+     * @param message message to be shown
+     */
     public static void showMessageDialog(String message) {
         JOptionPane.showMessageDialog(null, message);
     }
 
+    /**
+     * Show an error dialog with an error message
+     *
+     * @param message error message to be shown
+     */
     public static void showErrorDialog(String message) {
         JOptionPane.showMessageDialog(null, message, DEFAULT_ERROR_TITLE_DIALOG, JOptionPane.ERROR_MESSAGE);
     }

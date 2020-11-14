@@ -21,6 +21,13 @@ public abstract class Recorder {
         this.songState = new SongState();
     }
 
+    /**
+     * Give a list of Token's, record it into a MIDI file
+     *
+     * @param tokens    entry Token's
+     * @param directory directory the file will be saved on
+     * @throws IOException
+     */
     public abstract void record(List<Token> tokens, String directory) throws IOException;
 
     protected String getFilename() {

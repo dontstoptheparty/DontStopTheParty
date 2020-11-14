@@ -10,8 +10,16 @@ public abstract class Player {
         this.songState = new SongState();
     }
 
+    /**
+     * Play a {@link br.ufrgs.inf.dontstoptheparty.token.Token}
+     *
+     * @param token entry token
+     */
     public abstract void play(Token token);
 
+    /**
+     * Reset player
+     */
     public void reset() {
         this.songState.resetToDefault();
     }
