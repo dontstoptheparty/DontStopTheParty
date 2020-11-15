@@ -62,6 +62,11 @@ public abstract class JukeBox {
      */
     public abstract void record(String directory) throws IOException;
 
+    /**
+     * Sets the JukeBoxListener
+     *
+     * @param jukeBoxListener
+     */
     public void setFinishListener(JukeBoxListener jukeBoxListener) {
         this.jukeBoxListener = jukeBoxListener;
     }
