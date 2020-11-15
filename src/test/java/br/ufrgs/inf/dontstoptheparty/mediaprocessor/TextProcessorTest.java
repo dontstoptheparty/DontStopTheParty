@@ -1,8 +1,7 @@
-package br.ufrgs.inf.dontstoptheparty;
+package br.ufrgs.inf.dontstoptheparty.mediaprocessor;
 
 import br.ufrgs.inf.dontstoptheparty.enumerator.Instrument;
 import br.ufrgs.inf.dontstoptheparty.enumerator.Note;
-import br.ufrgs.inf.dontstoptheparty.mediaprocessor.TextProcessor;
 import br.ufrgs.inf.dontstoptheparty.token.NoteToken;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 import br.ufrgs.inf.dontstoptheparty.token.actions.*;
