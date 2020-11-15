@@ -77,10 +77,5 @@ public class TextProcessor implements MediaProcessorInterface<String> {
         return tokenList;
     }
 
-
-    public int getOriginPositionFromListPosition(String entry, List<Token> tokens, int position) {
-        // TODO Generify
-        return position;
-    }
 }
 

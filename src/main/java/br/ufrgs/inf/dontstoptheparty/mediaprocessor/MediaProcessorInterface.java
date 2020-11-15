@@ -12,6 +12,4 @@ public interface MediaProcessorInterface<T> {
      * @return list of Token's from the media
      */
     List<Token> convert(T value);
-
-    int getOriginPositionFromListPosition(T value, List<Token> tokens, int position);
 }

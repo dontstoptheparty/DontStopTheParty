@@ -62,8 +62,8 @@ public class TextMainUI {
             }
 
             @Override
-            public void onTokenPlayed(List<Token> tokens, int position) {
-                jukeBoxTokenPlayedListener(tokens, position);
+            public void onTokenPlayed(int position) {
+                jukeBoxTokenPlayedListener(position);
             }
 
             @Override
@@ -200,12 +200,10 @@ public class TextMainUI {
         highlightCharTextArea(0);
     }
 
-    private void jukeBoxTokenPlayedListener(List<Token> tokens, int position) {
+    private void jukeBoxTokenPlayedListener(int position) {
         if (isRunning) {
             final String musicText = this.musicTextArea.getText();
-            int charAt = textProcessor.getOriginPositionFromListPosition(musicText, tokens, position);
-
-            highlightCharTextArea(charAt);
+            highlightCharTextArea(position);
         }
     }
 

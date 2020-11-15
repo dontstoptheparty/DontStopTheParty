@@ -128,7 +128,7 @@ public class JukeBoxImpl extends JukeBox implements Runnable {
 
     private void onTokenApplied(int position) {
         if (this.jukeBoxListener != null) {
-            this.jukeBoxListener.onTokenPlayed(tokens, position);
+            this.jukeBoxListener.onTokenPlayed(position);
         }
     }
 
