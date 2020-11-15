@@ -4,6 +4,10 @@ import br.ufrgs.inf.dontstoptheparty.song.SongConstants;
 import br.ufrgs.inf.dontstoptheparty.song.SongState;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 
+
+/**
+ * Token for increase the song state volume
+ */
 public class IncreaseInstrumentActionToken implements Token {
     private final int value;
 
@@ -11,6 +15,11 @@ public class IncreaseInstrumentActionToken implements Token {
         this.value = value;
     }
 
+    /**
+     * Change the song state's volume to {@link #value}.
+     *
+     * @param songState state of the song
+     */
     @Override
     public void apply(SongState songState) {
         final int newInstrument = songState.getInstrument() + value;

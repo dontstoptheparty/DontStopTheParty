@@ -4,7 +4,17 @@ import br.ufrgs.inf.dontstoptheparty.song.SongConstants;
 import br.ufrgs.inf.dontstoptheparty.song.SongState;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 
+/**
+ * Token for duplicate the song state volume
+ */
 public class DoubleVolumeActionToken implements Token {
+
+    /**
+     * Change the song state's volume to its double if its possible.
+     * Otherwise, sets it to the default value
+     *
+     * @param songState state of the song
+     */
     @Override
     public void apply(SongState songState) {
         final int newVolume = songState.getVolume() * 2;

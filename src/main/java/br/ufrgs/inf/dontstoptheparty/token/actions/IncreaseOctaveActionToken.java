@@ -4,7 +4,17 @@ import br.ufrgs.inf.dontstoptheparty.song.SongConstants;
 import br.ufrgs.inf.dontstoptheparty.song.SongState;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 
+/**
+ * Token for increase the song state octave
+ */
 public class IncreaseOctaveActionToken implements Token {
+
+    /**
+     * Increment the song state's octave if possible.
+     * Otherwise, changes it to the default value
+     *
+     * @param songState state of the song
+     */
     @Override
     public void apply(SongState songState) {
         final int newOctave = songState.getOctave() + 1;

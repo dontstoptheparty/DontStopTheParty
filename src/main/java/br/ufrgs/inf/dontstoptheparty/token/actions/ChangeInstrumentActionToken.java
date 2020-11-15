@@ -4,6 +4,9 @@ import br.ufrgs.inf.dontstoptheparty.enumerator.Instrument;
 import br.ufrgs.inf.dontstoptheparty.song.SongState;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 
+/**
+ * Token for Change Instrument
+ */
 public class ChangeInstrumentActionToken implements Token {
     private final Instrument instrument;
 
@@ -11,6 +14,11 @@ public class ChangeInstrumentActionToken implements Token {
         this.instrument = instrument;
     }
 
+    /**
+     * Change the song state's instrument to {@link #instrument}
+     *
+     * @param songState state of the song
+     */
     @Override
     public void apply(SongState songState) {
         songState.setInstrument(this.instrument.getGeneralMIDICode());

@@ -3,6 +3,9 @@ package br.ufrgs.inf.dontstoptheparty.token;
 import br.ufrgs.inf.dontstoptheparty.enumerator.Note;
 import br.ufrgs.inf.dontstoptheparty.song.SongState;
 
+/**
+ * Token for change current Note
+ */
 public class NoteToken implements Token {
     private final Note note;
 
@@ -10,6 +13,11 @@ public class NoteToken implements Token {
         this.note = note;
     }
 
+    /**
+     * Change the song state's note to {@link #note}
+     *
+     * @param songState state of the song
+     */
     @Override
     public void apply(SongState songState) {
         songState.setNote(note);
