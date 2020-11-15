@@ -1,6 +1,7 @@
 package br.ufrgs.inf.dontstoptheparty.ui;
 
 public class UITextConstants {
+
     public static final String STOP_TEXT = "Stop";
     public static final String START_TEXT = "Start";
     public static final String PLAY_TEXT = "Play";

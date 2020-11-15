@@ -36,7 +36,6 @@ public class SongState {
     }
 
     public void setInstrument(int instrument) {
-        // TODO ver limites de instruments
         this.instrument = instrument;
     }
 
@@ -45,7 +44,6 @@ public class SongState {
     }
 
     public void setVolume(int volume) {
-        // TODO ver limites de volume
         this.volume = volume;
     }
 
@@ -54,7 +52,6 @@ public class SongState {
     }
 
     public void setOctave(int octave) {
-        // TODO ver limites de octave
         this.octave = octave;
     }
 
@@ -67,7 +64,6 @@ public class SongState {
     }
 
     public int getBpm() {
-        // TODO ver limites de bpm
         return bpm;
     }
 
