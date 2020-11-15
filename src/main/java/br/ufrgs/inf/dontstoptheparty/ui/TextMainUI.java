@@ -24,7 +24,7 @@ import java.util.List;
 
 import static br.ufrgs.inf.dontstoptheparty.ui.UITextConstants.*;
 
-public class Main {
+public class TextMainUI {
     private JPanel mainPanel;
     private JButton playPauseButton;
     private JButton resetButton;
@@ -39,21 +39,21 @@ public class Main {
     private final MediaProcessorInterface<String> textProcessor;
     private final JukeBox jukeBox;
 
-    public Main() throws MidiUnavailableException {
+    public TextMainUI() throws MidiUnavailableException {
         this(new JukeBoxImpl(new ArrayList<>()), new TextProcessor());
     }
 
-    public Main(String filePath) throws MidiUnavailableException {
+    public TextMainUI(String filePath) throws MidiUnavailableException {
         this(new JukeBoxImpl(new ArrayList<>()), new TextProcessor());
         openFile(filePath);
     }
 
-    public Main(JukeBox newJukeBox, MediaProcessorInterface<String> newMediaProcessor) {
+    public TextMainUI(JukeBox newJukeBox, MediaProcessorInterface<String> newMediaProcessor) {
         this.jukeBox = newJukeBox;
         this.textProcessor = newMediaProcessor;
         this.isPlaying = false;
         this.isRunning = false;
-        this.updateButtons();
+        this.updateComponents();
 
         this.jukeBox.setFinishListener(new JukeBoxListener() {
             @Override
@@ -151,7 +151,7 @@ public class Main {
             this.isPlaying = true;
         }
         this.isRunning = !this.isRunning;
-        this.updateButtons();
+        this.updateComponents();
     }
 
     private void handleResetButtonClick() {
@@ -201,18 +201,18 @@ public class Main {
     }
 
     private void jukeBoxTokenPlayedListener(List<Token> tokens, int position) {
-        final String musicText = this.musicTextArea.getText();
-        int charAt = textProcessor.getOriginPositionFromListPosition(musicText, tokens, position);
+        if (isRunning) {
+            final String musicText = this.musicTextArea.getText();
+            int charAt = textProcessor.getOriginPositionFromListPosition(musicText, tokens, position);
 
-        highlightCharTextArea(charAt);
+            highlightCharTextArea(charAt);
+        }
     }
 
     private void jukeBoxFinishListener() {
         this.isPlaying = false;
         this.isRunning = false;
-        unhighlightTextArea();
-        unblockTextArea();
-        this.updateButtons();
+        this.updateComponents();
     }
 
     private void unblockTextArea() {
@@ -242,11 +242,13 @@ public class Main {
         highlighter.removeAllHighlights();
     }
 
-    private void updateButtons() {
+    private void updateComponents() {
         this.updatePlayPauseButton();
         this.updateStartStopButton();
         this.updateResetButton();
+        this.updateRecordButton();
         this.updateOpenFileButton();
+        this.updateMusicTextArea();
     }
 
     private void updatePlayPauseButton() {
@@ -271,8 +273,19 @@ public class Main {
         this.resetButton.setEnabled(this.isRunning);
     }
 
+    private void updateRecordButton() {
+        this.buttonRecord.setEnabled(!isRunning);
+    }
+
     private void updateOpenFileButton() {
         this.openFileButton.setEnabled(!this.isRunning);
+    }
+
+    private void updateMusicTextArea() {
+        if (!isRunning) {
+            this.unhighlightTextArea();
+            this.unblockTextArea();
+        }
     }
 
     private void loadJukeboxTokens() {
