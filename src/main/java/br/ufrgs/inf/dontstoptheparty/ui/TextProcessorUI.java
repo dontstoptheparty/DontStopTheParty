@@ -3,7 +3,6 @@ package br.ufrgs.inf.dontstoptheparty.ui;
 import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBox;
 import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBoxImpl;
 import br.ufrgs.inf.dontstoptheparty.jukebox.JukeBoxListener;
-import br.ufrgs.inf.dontstoptheparty.mediaprocessor.MediaProcessorInterface;
 import br.ufrgs.inf.dontstoptheparty.mediaprocessor.TextProcessor;
 import br.ufrgs.inf.dontstoptheparty.token.Token;
 import br.ufrgs.inf.dontstoptheparty.utils.FileUtils;
@@ -24,7 +23,7 @@ import java.util.List;
 
 import static br.ufrgs.inf.dontstoptheparty.ui.UITextConstants.*;
 
-public class Main {
+public class TextProcessorUI {
     private JPanel mainPanel;
     private JButton playPauseButton;
     private JButton resetButton;
@@ -36,21 +35,21 @@ public class Main {
     private boolean isPlaying;
     private boolean isRunning;
 
-    private final MediaProcessorInterface<String> textProcessor;
+    private final TextProcessor textProcessor;
     private final JukeBox jukeBox;
 
-    public Main() throws MidiUnavailableException {
+    public TextProcessorUI() throws MidiUnavailableException {
         this(new JukeBoxImpl(new ArrayList<>()), new TextProcessor());
     }
 
-    public Main(String filePath) throws MidiUnavailableException {
+    public TextProcessorUI(String filePath) throws MidiUnavailableException {
         this(new JukeBoxImpl(new ArrayList<>()), new TextProcessor());
         openFile(filePath);
     }
 
-    public Main(JukeBox newJukeBox, MediaProcessorInterface<String> newMediaProcessor) {
+    public TextProcessorUI(JukeBox newJukeBox, TextProcessor textProcessor) {
         this.jukeBox = newJukeBox;
-        this.textProcessor = newMediaProcessor;
+        this.textProcessor = textProcessor;
         this.isPlaying = false;
         this.isRunning = false;
         this.updateButtons();
@@ -84,11 +83,11 @@ public class Main {
         this.openFileButton.addActionListener(actionEvent -> this.handleOpenFileButtonClick());
         this.buttonRecord.addActionListener(actionEvent -> this.handleRecordButtonClick());
 
-        enableDragAndDrop();
+        this.enableDragAndDrop();
     }
 
     private void enableDragAndDrop() {
-        DropTarget target = new DropTarget(this.musicTextArea, new DropTargetListener() {
+        final DropTarget target = new DropTarget(this.musicTextArea, new DropTargetListener() {
             public void dragEnter(DropTargetDragEvent e) {
             }
 
@@ -126,7 +125,6 @@ public class Main {
         frame.setContentPane(mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setVisible(true);
     }
 
     private void handlePlayPauseButtonClick() {
@@ -145,6 +143,8 @@ public class Main {
         if (this.isRunning) {
             this.jukeBox.stop();
             this.isPlaying = false;
+            unblockTextArea();
+
         } else {
             this.loadJukeboxTokens();
             this.jukeBox.start();
@@ -160,7 +160,7 @@ public class Main {
 
     private void handleOpenFileButtonClick() {
         final String filePath = UIUtils.chooseFile();
-        openFile(filePath);
+        this.openFile(filePath);
     }
 
     private void openFile(String filePath) {
@@ -168,7 +168,7 @@ public class Main {
             try {
                 final String fileText = FileUtils.readTextFromTextFile(filePath);
                 if (fileText != null) {
-                    updateMusicTextAreaText(fileText);
+                    this.updateMusicTextAreaText(fileText);
                 } else {
                     UIUtils.showErrorDialog(FILE_READ_ERROR_NOT_TXT_FILE);
                 }
@@ -197,21 +197,21 @@ public class Main {
 
     private void jukeBoxStartListener() {
         this.blockTextArea();
-        highlightCharTextArea(0);
+        this.highlightCharTextArea(0);
     }
 
     private void jukeBoxTokenPlayedListener(List<Token> tokens, int position) {
         final String musicText = this.musicTextArea.getText();
         int charAt = textProcessor.getOriginPositionFromListPosition(musicText, tokens, position);
 
-        highlightCharTextArea(charAt);
+        this.highlightCharTextArea(charAt);
     }
 
     private void jukeBoxFinishListener() {
         this.isPlaying = false;
         this.isRunning = false;
-        unhighlightTextArea();
-        unblockTextArea();
+        this.unhighlightTextArea();
+        this.unblockTextArea();
         this.updateButtons();
     }
 
@@ -246,6 +246,7 @@ public class Main {
         this.updatePlayPauseButton();
         this.updateStartStopButton();
         this.updateResetButton();
+        this.updateOpenFileButton();
     }
 
     private void updatePlayPauseButton() {
@@ -270,11 +271,13 @@ public class Main {
         this.resetButton.setEnabled(this.isRunning);
     }
 
+    private void updateOpenFileButton() {
+        this.openFileButton.setEnabled(this.isRunning);
+    }
+
     private void loadJukeboxTokens() {
         final String musicText = this.musicTextArea.getText();
         final List<Token> tokens = this.textProcessor.convert(musicText);
         this.jukeBox.reload(tokens);
     }
-
-
 }

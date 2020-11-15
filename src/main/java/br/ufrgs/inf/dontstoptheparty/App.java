@@ -1,6 +1,6 @@
 package br.ufrgs.inf.dontstoptheparty;
 
-import br.ufrgs.inf.dontstoptheparty.ui.Main;
+import br.ufrgs.inf.dontstoptheparty.ui.TextProcessorUI;
 import br.ufrgs.inf.dontstoptheparty.ui.UITextConstants;
 import br.ufrgs.inf.dontstoptheparty.ui.UIUtils;
 
@@ -17,16 +17,16 @@ public class App {
 
         java.awt.EventQueue.invokeLater(() -> {
             try {
-                Main mainWindow;
+                TextProcessorUI textProcessorUI;
 
                 // Verifies if has some input file as argument
                 if (args.length == 1) {
                     final String filePath = args[0];
-                    mainWindow = new Main(filePath);
+                    textProcessorUI = new TextProcessorUI(filePath);
                 } else {
-                    mainWindow = new Main();
+                    textProcessorUI = new TextProcessorUI();
                 }
-                mainWindow.display();
+                textProcessorUI.display();
 
             } catch (MidiUnavailableException e) {
                 UIUtils.showErrorDialog(UITextConstants.MIDI_UNAVAILABLE_EXCEPTION);
