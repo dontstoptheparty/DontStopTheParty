@@ -50,7 +50,7 @@ public class SongState {
 
     public void setVolume(int volume) {
         if ((volume < SongConstants.MIN_VOLUME) || (volume > SongConstants.MAX_VOLUME)) {
-            throw new InvalidParameterException("Instrument " + volume + " is out of the bound [1-127]");
+            throw new InvalidParameterException("Volume " + volume + " is out of the bound [1-127]");
         }
         this.volume = volume;
     }
@@ -61,7 +61,7 @@ public class SongState {
 
     public void setOctave(int octave) {
         if ((octave < SongConstants.MIN_OCTAVE) || (octave > SongConstants.MAX_OCTAVE)) {
-            throw new InvalidParameterException("Instrument " + octave + " is out of the bound [1-127]");
+            throw new InvalidParameterException("Octave " + octave + " is out of the bound [1-9]");
         }
         this.octave = octave;
     }
@@ -79,6 +79,9 @@ public class SongState {
     }
 
     public void setBpm(int bpm) {
+        if ((bpm < 0) || (bpm == 0)) {
+            throw new InvalidParameterException("BPM " + bpm + " cant be less or equals to zero");
+        }
         this.bpm = bpm;
     }
 }
