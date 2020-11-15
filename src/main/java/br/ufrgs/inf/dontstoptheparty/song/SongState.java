@@ -2,6 +2,8 @@ package br.ufrgs.inf.dontstoptheparty.song;
 
 import br.ufrgs.inf.dontstoptheparty.enumerator.Note;
 
+import java.security.InvalidParameterException;
+
 public class SongState {
     private Note note;
     private int instrument;
@@ -36,6 +38,9 @@ public class SongState {
     }
 
     public void setInstrument(int instrument) {
+        if ((instrument < SongConstants.MIN_INSTRUMENT) || (instrument > SongConstants.MAX_INSTRUMENT)) {
+            throw new InvalidParameterException("Instrument " + instrument + " is out of the bound [1-127]");
+        }
         this.instrument = instrument;
     }
 
@@ -44,6 +49,9 @@ public class SongState {
     }
 
     public void setVolume(int volume) {
+        if ((volume < SongConstants.MIN_VOLUME) || (volume > SongConstants.MAX_VOLUME)) {
+            throw new InvalidParameterException("Instrument " + volume + " is out of the bound [1-127]");
+        }
         this.volume = volume;
     }
 
@@ -52,6 +60,9 @@ public class SongState {
     }
 
     public void setOctave(int octave) {
+        if ((octave < SongConstants.MIN_OCTAVE) || (octave > SongConstants.MAX_OCTAVE)) {
+            throw new InvalidParameterException("Instrument " + octave + " is out of the bound [1-127]");
+        }
         this.octave = octave;
     }
 
