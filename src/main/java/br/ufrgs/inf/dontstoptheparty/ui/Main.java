@@ -246,6 +246,7 @@ public class Main {
         this.updatePlayPauseButton();
         this.updateStartStopButton();
         this.updateResetButton();
+        this.updateOpenFileButton();
     }
 
     private void updatePlayPauseButton() {
@@ -268,6 +269,10 @@ public class Main {
 
     private void updateResetButton() {
         this.resetButton.setEnabled(this.isRunning);
+    }
+
+    private void updateOpenFileButton() {
+        this.openFileButton.setEnabled(!this.isRunning);
     }
 
     private void loadJukeboxTokens() {
