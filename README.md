@@ -1,7 +1,8 @@
 # DontStopTheParty
 
 ## Authors
-- Guilherme Santana João Pedro Silveira
+- Guilherme Santana 
+- João Pedro Silveira
 - Renan Magagnin
 - Wellington M. Espindula.
 
