@@ -14,7 +14,7 @@ public class FileUtils {
      *
      * @param path File path
      * @return return the content of the file. Otherwise, return null;
-     * @throws IOException
+     * @throws IOException Input Exception if have file can't be opened
      */
     public static String readTextFromTextFile(String path) throws IOException {
         if (isATextFile(path)) {

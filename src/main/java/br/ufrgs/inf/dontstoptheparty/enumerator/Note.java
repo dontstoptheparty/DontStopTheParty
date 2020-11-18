@@ -9,12 +9,8 @@ public enum Note {
     FA("F", 3),
     SOL("G", 4);
 
-    private String stringNotation;
-    private int midiFundamentalValue;
-
-    Note(String stringNotation) {
-        this.stringNotation = stringNotation;
-    }
+    private final String stringNotation;
+    private final int midiFundamentalValue;
 
     Note(String stringNotation, int midiFundamentalValue) {
         this.stringNotation = stringNotation;

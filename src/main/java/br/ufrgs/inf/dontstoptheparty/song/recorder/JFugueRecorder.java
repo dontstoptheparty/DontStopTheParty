@@ -10,11 +10,8 @@ import java.util.List;
 
 public class JFugueRecorder extends Recorder {
 
-    private final org.jfugue.player.Player player;
-
     public JFugueRecorder() {
         super();
-        this.player = new org.jfugue.player.Player();
     }
 
     @Override

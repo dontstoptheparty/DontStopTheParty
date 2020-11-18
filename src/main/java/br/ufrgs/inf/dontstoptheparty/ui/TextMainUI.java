@@ -88,7 +88,7 @@ public class TextMainUI {
     }
 
     private void enableDragAndDrop() {
-        DropTarget target = new DropTarget(this.musicTextArea, new DropTargetListener() {
+        new DropTarget(this.musicTextArea, new DropTargetListener() {
             public void dragEnter(DropTargetDragEvent e) {
             }
 
@@ -202,7 +202,6 @@ public class TextMainUI {
 
     private void jukeBoxTokenPlayedListener(int position) {
         if (isRunning) {
-            final String musicText = this.musicTextArea.getText();
             highlightCharTextArea(position);
         }
     }

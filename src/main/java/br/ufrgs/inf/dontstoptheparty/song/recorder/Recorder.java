@@ -11,9 +11,9 @@ import java.util.Date;
 import java.util.List;
 
 public abstract class Recorder {
-    private static String FILE_INIT = "Record__";
+    private static final String FILE_INIT = "Record__";
 
-    private static String DATA_PATTERN = "MM-dd-yyyy_HH-mm-ss";
+    private static final String DATA_PATTERN = "MM-dd-yyyy_HH-mm-ss";
 
     protected final SongState songState;
 
@@ -26,7 +26,7 @@ public abstract class Recorder {
      *
      * @param tokens    entry Token's
      * @param directory directory the file will be saved on
-     * @throws IOException
+     * @throws IOException Output exception if have file can't be saved
      */
     public abstract void record(List<Token> tokens, String directory) throws IOException;
 

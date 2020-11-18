@@ -15,7 +15,7 @@ import java.util.Map;
  * MediaProcessorInterface for a text implementation
  */
 public class TextProcessor implements MediaProcessorInterface<String> {
-    private Map<Character, Token> charToTokenMap = new HashMap<Character, Token>() {{
+    private static final Map<Character, Token> charToTokenMap = new HashMap<>() {{
         //NoteTokens
         put('A', new NoteToken(Note.LA));
         put('B', new NoteToken(Note.SI));

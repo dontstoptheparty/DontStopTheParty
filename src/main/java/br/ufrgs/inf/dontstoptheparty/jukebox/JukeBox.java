@@ -65,7 +65,7 @@ public abstract class JukeBox {
     /**
      * Sets the JukeBoxListener
      *
-     * @param jukeBoxListener
+     * @param jukeBoxListener Default listener for JukeBox events
      */
     public void setFinishListener(JukeBoxListener jukeBoxListener) {
         this.jukeBoxListener = jukeBoxListener;
