@@ -1,3 +1,13 @@
+/*
+ * DontStopTheParty 2020.
+ * Designed by Guilherme Santana, João Pedro Silveira, Renan Magagnin e Wellington M. Espindula.
+ */
+
+/*
+ * DontStopTheParty 2020.
+ * Designed by Guilherme Santana, João Pedro Silveira, Renan Magagnin e Wellington M. Espindula.
+ */
+
 package br.ufrgs.inf.dontstoptheparty.mediaprocessor;
 
 import br.ufrgs.inf.dontstoptheparty.enumerator.Instrument;
@@ -16,6 +26,7 @@ import static org.junit.Assert.assertNotNull;
 public class TextProcessorTest {
 
     private final TextProcessor textProcessor = new TextProcessor();
+
     @Test
     public void testForDefaultValue(){
         String charList = "ABCDEFG!I1i2U3\nu4;5,6789 ?aGz";
