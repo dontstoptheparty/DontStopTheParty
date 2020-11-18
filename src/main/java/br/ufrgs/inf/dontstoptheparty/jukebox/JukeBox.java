@@ -3,6 +3,11 @@
  * Designed by Guilherme Santana, João Pedro Silveira, Renan Magagnin e Wellington M. Espindula.
  */
 
+/*
+ * DontStopTheParty 2020.
+ * Designed by Guilherme Santana, João Pedro Silveira, Renan Magagnin e Wellington M. Espindula.
+ */
+
 package br.ufrgs.inf.dontstoptheparty.jukebox;
 
 import br.ufrgs.inf.dontstoptheparty.song.player.Player;
@@ -32,7 +37,7 @@ public abstract class JukeBox {
      */
     public void reload(List<Token> tokens) {
         this.tokens = tokens;
-        this.reset();
+        this.stop();
     }
 
     /**

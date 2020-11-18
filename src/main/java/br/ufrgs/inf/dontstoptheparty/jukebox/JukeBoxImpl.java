@@ -3,6 +3,11 @@
  * Designed by Guilherme Santana, João Pedro Silveira, Renan Magagnin e Wellington M. Espindula.
  */
 
+/*
+ * DontStopTheParty 2020.
+ * Designed by Guilherme Santana, João Pedro Silveira, Renan Magagnin e Wellington M. Espindula.
+ */
+
 package br.ufrgs.inf.dontstoptheparty.jukebox;
 
 import br.ufrgs.inf.dontstoptheparty.song.player.JavaSoundPlayer;
@@ -20,13 +25,11 @@ public class JukeBoxImpl extends JukeBox implements Runnable {
 
     private volatile boolean isRunning;
     private volatile boolean isPaused;
-    private volatile boolean resetTokens;
 
     public JukeBoxImpl(List<Token> tokens, Player player, Recorder recorder) {
         super(tokens, player, recorder);
         this.isPaused = true;
         this.isRunning = false;
-        this.resetTokens = false;
         this.playerThread = new Thread(this);
     }
 
@@ -41,7 +44,6 @@ public class JukeBoxImpl extends JukeBox implements Runnable {
     public void reset() {
         this.isRunning = true;
         this.player.reset();
-        this.resetTokens = true;
         this.reviveThreadIfNecessary();
     }
 
@@ -93,14 +95,9 @@ public class JukeBoxImpl extends JukeBox implements Runnable {
         onJukeBoxStarted();
 
         while (this.isRunning) {
-            if (this.resetTokens) {
-                i = 0;
-                this.resetTokens = false;
-            }
 
             if (i == this.tokens.size()) {
                 this.stop();
-                this.onFinish();
                 break;
             }
 
@@ -117,6 +114,7 @@ public class JukeBoxImpl extends JukeBox implements Runnable {
                 }
             }
         }
+        this.onFinish();
     }
 
     private void onJukeBoxStarted() {
