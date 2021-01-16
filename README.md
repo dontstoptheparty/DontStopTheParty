@@ -7,7 +7,7 @@
 - Wellington M. Espindula.
 
 ## Description
-This project, created for the INFO1120 course - Programs Construction Thecniques - aims to create and easy and intuitive way of playing music using as entry music notes such as A, B, C, ...
+This project, created for the INFO1120 course - Programs Construction Thecniques - aims to create an easy and intuitive way of playing music using as entry music notes such as A, B, C, ...
 
 ## Usage
 Just open the ".jar" release with JRE
